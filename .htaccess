@@ -1,0 +1,9 @@
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+RewriteRule ^([^\.]+)$ $1.js [NC,L]
+RewriteRule ^phpmyadmin/$ /phpmyadmin/index.php [R=301,L]
+RewriteCond $1 [A-Z]
+RewriteRule ^/(.*)$ /${lowercase:$1} [R=301,L]
