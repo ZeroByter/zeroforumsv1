@@ -6,12 +6,8 @@
 
     if(isset($_POST["id"])){
         // TODO: Make sure user has permissions to do this!
-        if(get_navlink_by_id($_POST["id"])->candelete){
-            remove_navbar_link($_POST["id"]);
-            echo "success";
-        }else{
-            echo "error:cant delete this link!";
-        }
+        make_usertag_default($_POST["id"]);
+        echo "success";
     }else{
         echo "error:missing information";
     }

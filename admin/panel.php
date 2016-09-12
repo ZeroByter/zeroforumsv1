@@ -21,7 +21,7 @@
 <ul class="nav nav-tabs">
     <li role="presentation" id="forums_tab" class="navbar_link"><a href="javascript:void(0)">Forums</a></li>
     <li role="presentation" id="users_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/userspanel">Users</a></li>
-    <li role="presentation" id="usertags_tab" class="navbar_link"><a href="javascript:void(0)">User tags</a></li>
+    <li role="presentation" id="usertags_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/usertagspanel">User tags</a></li>
     <li role="presentation" id="permissions_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/permissionspanel">Permissions</a></li>
     <li role="presentation" id="navigation_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/navgiationpanel">Navigation bar</a></li>
 </ul>

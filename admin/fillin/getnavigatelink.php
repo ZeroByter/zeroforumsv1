@@ -40,7 +40,7 @@
             <input type="text" class="form-control" id="navlink_link_in" value="<?echo $navlink->link?>">
         </div>
         <div class="input-group">
-            <span class="input-group-addon" data-toggle='tooltip' data-placement='bottom' itle='In what order shouold this link be viewed?'>The viewing order</span>
+            <span class="input-group-addon" data-toggle='tooltip' data-placement='bottom' title='In what order should this link be viewed?'>The viewing order</span>
             <input type="number" class="form-control" id="navlink_listorder_in" value="<?echo $navlink->listorder?>">
         </div>
         <button type="button" class="btn btn-danger" style="width:100%;" id="delete_link">Delete</button>

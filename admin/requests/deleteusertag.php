@@ -6,11 +6,12 @@
 
     if(isset($_POST["id"])){
         // TODO: Make sure user has permissions to do this!
-        if(get_navlink_by_id($_POST["id"])->candelete){
-            remove_navbar_link($_POST["id"]);
-            echo "success";
+        if(get_usertag_by_id($_POST["id"])->isdefault){
+            echo "error:cant delete default usertag! link!";
         }else{
-            echo "error:cant delete this link!";
+            delete_usertag($_POST["id"]);
+            kick_all_users_from_usertag($_POST["id"]);
+            echo "success";
         }
     }else{
         echo "error:missing information";

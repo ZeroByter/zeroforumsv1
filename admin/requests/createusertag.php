@@ -4,14 +4,10 @@
     include("../../phpscripts/usertags.php");
     include("../../phpscripts/navigatebar.php");
 
-    if(isset($_POST["id"])){
+    if(isset($_POST["name"]) && isset($_POST["listorder"]) && isset($_POST["isstaff"])){
         // TODO: Make sure user has permissions to do this!
-        if(get_navlink_by_id($_POST["id"])->candelete){
-            remove_navbar_link($_POST["id"]);
-            echo "success";
-        }else{
-            echo "error:cant delete this link!";
-        }
+        add_usertag($_POST["name"], ";", $_POST["listorder"], false, $_POST["isstaff"]);
+        echo "success";
     }else{
         echo "error:missing information";
     }

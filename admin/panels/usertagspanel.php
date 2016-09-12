@@ -4,33 +4,33 @@
     include("../../phpscripts/usertags.php");
     include("../../phpscripts/navigatebar.php");
 
-    if(!tag_has_permission(get_current_usertag(), "adminpnl_navigation_tab")){
+    if(!tag_has_permission(get_current_usertag(), "adminpnl_usertags_tab")){
         echo "<script>window.close()</script>";
     }
 ?>
 
 <style>
-    #navigation_links_list_div{
+    #usertag_links_list_div{
         width: 150px;
         height: calc(100% - 42px);
         border-right: 1px solid #dddddd;
         float: left;
     }
 
-    .navigation_link_list_div, .navigation_fake_link_list_div{
+    .usertag_link_list_div, .usertag_fake_link_list_div{
         text-align: center;
         cursor: pointer;
         padding: 10px;
     }
-    .navigation_link_list_div:hover, .navigation_fake_link_list_div:hover, .row_active{
+    .usertag_link_list_div:hover, .usertag_fake_link_list_div:hover, .row_active{
         background: #dddddd;
     }
-    .navigation_link_list_div[disabled]{
+    .usertag_link_list_div[disabled]{
         color: grey;
         cursor: not-allowed;
     }
 
-    #main_navigation_div{
+    #main_usertag_div{
         width: calc(100% - 150px);
         float: left;
         margin: 30px auto;
@@ -58,14 +58,14 @@
 	}
 </style>
 
-<div id="navigation_links_list_div">
+<div id="usertag_links_list_div">
     <center><br><span class="glyphicon glyphicon-link"></span> Navigation links</center>
     <br>
-    <div class='navigation_fake_link_list_div' id="create_new_link" style="color: green;">Create a new link</div>
-    <span id="fillin_navigatelist"></span>
+    <div class='usertag_fake_link_list_div' id="create_new_link" style="color: green;">Create a new usertag</div>
+    <span id="fillin_usertaglist"></span>
 </div>
-<div id="main_navigation_div">
-    <span id="fillin_navigatebar"></span>
+<div id="main_usertag_div">
+    <span id="fillin_usertag"></span>
 </div>
 
 <script>
@@ -74,29 +74,30 @@
     })
 
     $("#create_new_link").click(function(){
-        $.get("fillin/getcreatenavigatelink", function(html){
-            $("#fillin_navigatebar").html(html)
+        $.get("fillin/getcreateusertag", function(html){
+            $("#fillin_usertag").html(html)
+            $(".usertag_link_list_div").removeClass("row_active")
         })
     })
 
-    selectedNavigatelink = undefined
+    selectedUsertag = undefined
 
-    function redo_navigatelist(active){
+    function redo_usertaglist(active){
         if(active){
-            $.get("fillin/getnavigatelist", {active: active}, function(html){
-                $("#fillin_navigatelist").html(html)
+            $.get("fillin/getusertaglist", {active: active}, function(html){
+                $("#fillin_usertaglist").html(html)
             })
         }else{
-            $.get("fillin/getnavigatelist", function(html){
-                $("#fillin_navigatelist").html(html)
+            $.get("fillin/getusertaglist", function(html){
+                $("#fillin_usertaglist").html(html)
             })
         }
     }
-    redo_navigatelist()
+    redo_usertaglist()
 
     function redo_panel(){
-        $.get("fillin/getnavigatelink", {id: $(selectedNavigatelink).data("id")}, function(html){
-            $("#fillin_navigatebar").html(html)
+        $.get("fillin/getusertagfillin", {id: $(selectedUsertag).data("id")}, function(html){
+            $("#fillin_usertag").html(html)
         })
     }
 </script>
