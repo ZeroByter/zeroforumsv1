@@ -1,0 +1,29 @@
+.forumbody_div{
+    padding:0px;
+}
+.subforum_div td{
+    padding-top: 0;
+}
+.subforum_div{
+    margin-top: -1px;
+    border-top: 1px solid #dddddd;
+    padding: 10px;
+}
+.subforum_div > table{
+    width: 100%;
+}
+.subforum_div:hover{
+    background: #dddddd;
+}
+.subforum_inactive{
+    color: grey;
+}
+.subforum_name{
+    float: left;
+}
+.subforum_activity{
+    float: right;
+    margin-top: auto;
+    margin-right: 15%;
+    text-align: right;
+}

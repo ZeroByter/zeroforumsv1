@@ -1,0 +1,34 @@
+.forumbody_div{
+    padding:0px;
+}
+.thread_div td{
+    padding-top: 0;
+}
+.thread_div{
+    padding: 10px;
+}
+.thread_div > table{
+    width: 100%;
+}
+.thread_div:hover{
+    background: #dddddd;
+}
+.thread_name{
+    margin-top: 10px;
+    float: left;
+}
+.thread_stats{
+    float: right;
+    margin-top: 10px;
+    margin-right: 5%;
+    text-align: right;
+}
+.thread_stats_secondary{
+    float: right;
+    margin-top: auto;
+    margin-right: 5%;
+    text-align: right;
+}
+#forum_actions{
+    margin-top: 18px;
+}

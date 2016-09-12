@@ -1,0 +1,39 @@
+#main_body{
+	width: 74%;
+	height: 100%;
+	margin: 0 auto;
+	padding-top: 40px;
+	border-left: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+}
+
+#main_body_table{
+	width: 100%;
+	#table-layout: fixed;
+	text-align: left;
+	min-height: calc(100% - 52px);
+	margin-top: -20px;
+}
+
+#main_body_table td:not(.exempt_base){
+	vertical-align: top;
+	padding-top: 20px;
+	text-align: left;
+}
+
+#body_left_space{
+	padding: 0 20px;
+	padding-top: 20px;
+	width: 300px;
+	border-right: 1px solid #DDDDDD;
+}
+
+#body_center_space{
+	padding: 0 20px;
+}
+
+#body_right_space{
+	padding: 0 20px;
+	width: 300px;
+	border-left: 1px solid #DDDDDD;
+}

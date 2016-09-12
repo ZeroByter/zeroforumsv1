@@ -1,0 +1,13 @@
+#thread_poster_div{
+    float: left;
+    margin-right: 30px;
+}
+#thread_actions{
+    margin-top: -12px;
+    margin-bottom: 18px;
+}
+#thread_reply{
+    max-width: 65%;
+    margin: 18px auto;
+    display: none;
+}
