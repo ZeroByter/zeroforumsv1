@@ -9,7 +9,7 @@
         // TODO: Make sure user has permissions to do this!
         $navlink = get_navlink_by_id($_POST["id"]);
         if($navlink->canedit){
-            create_log(get_current_account()->username . " updated navigation link '$navlink->text' with new properties: text: ".$_POST["text"].", link: ".$_POST["link"]);
+            create_log(get_current_account()->username . " updated navigation link '$navlink->text' with new properties: text = '".$_POST["text"]."', link = '".$_POST["link"]."'");
             update_navbar_link($_POST["id"], $_POST["text"], $_POST["link"], $_POST["canview"], $_POST["listorder"]);
             echo "success";
         }else{
