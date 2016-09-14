@@ -9,6 +9,7 @@
 	$permissions[] = "viewhiddenthread";
 	$permissionsInfo["viewhiddenthread"] = array("name" => "View hidden threads", "desc" => "View threads which are tagged as hidden from everyone else");
 	// Admin panel permissions
+	$permissions[] = "adminpnl_news_tab";
 	$permissions[] = "adminpnl_forums_tab";
 	$permissionsInfo["adminpnl_forums_tab"] = array("name" => "Admin panel: view forums tab", "desc" => "View the forums tab in the admin panel");
 	$permissions[] = "adminpnl_users_tab";
@@ -19,6 +20,7 @@
 	$permissionsInfo["adminpnl_permissions_tab"] = array("name" => "Admin panel: view permissions tab", "desc" => "View the permisions tab in the admin panel");
 	$permissions[] = "adminpnl_navigation_tab";
 	$permissionsInfo["adminpnl_navigation_tab"] = array("name" => "Admin panel: view navigation tab", "desc" => "View the navigation tab in the admin panel");
+	$permissions[] = "adminpnl_logs_tab";
 	$permissions[] = "adminpnl_ignore_usertag_limit";
 	$permissionsInfo["adminpnl_ignore_usertag_limit"] = array("name" => "Admin panel: ignore usertag listorder limit", "desc" => "View all usertags, regardless if they are higher sorted than user's");
 

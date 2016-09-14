@@ -4,11 +4,13 @@
 	include("usertags.php");
 	include("accounts.php");
 	include("forums.php");
+	include("logs.php");
 
 	accounts_create_db();
 	forums_create_db();
 	navigatebar_create_db();
 	usertags_create_db();
+	logs_create_db();
 
 	if(!get_default_usertag()){
 		set_navbar_title("My website title");

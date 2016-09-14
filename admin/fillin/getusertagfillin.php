@@ -30,7 +30,7 @@
         </div>
         <button type="button" class="btn btn-danger" style="width:100%;" id="delete_usertag" data-toggle="tooltip" title="If you delete this usertag, all users in it will be switched to the default usertag!">Delete</button>
         <button type="button" class="btn btn-default" style="width:100%;margin-top:6px;" id="make_default_usertag">Make this usertag the default usertag</button><br><br>
-        <span style="text-align:center;display:block;font-size:14px;" class="label label-info" data-toggle='tooltip' title="You must go to the 'permissions' tab to set the permissions for any created usertag">Where can I set the permissions for my sweet new usertag?</span>
+        <span style="text-align:center;display:block;font-size:14px;" class="label label-info" data-toggle='tooltip' title="You must go to the 'permissions' tab to set the permissions for any created usertag">Where can I set the permissions for my usertag?</span>
         <?
             if($usertag->isdefault){
                 echo "<script>$('#delete_usertag').attr('disabled', '').html('You can\'t delete the default usertag!')</script>";
@@ -55,7 +55,7 @@
 
     function updateusertag(){
         $.post("/admin/requests/updateusertag", {id: usertagid, name: name, listorder: listorder, isstaff: isstaff}, function(html){
-            console.log($(selectedUsertag).data("id"))
+            console.log(html)
             redo_usertaglist($(selectedUsertag).data("id"))
             redo_panel()
         })
@@ -69,8 +69,8 @@
         listorder = $("#usertag_listorder_in").val()
         updateusertag()
     })
-    $("#usertag_isstaff_in").bind("change", function(){
-        isstaff = $("#usertag_isstaff_in").val()
+    $("#usertag_isstaff_in").click(function(){
+        istaff = $(this).prop("checked")
         updateusertag()
     })
     $("#delete_usertag").click(function(){

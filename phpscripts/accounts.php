@@ -135,6 +135,7 @@
 
 	function account_login($username){
 		$account = get_account_by_username($username);
+		regenerate_salt($account->id);
 		setcookie("sessionid", $account->sessionid, 0, "/");
 	}
 
@@ -162,11 +163,31 @@
 		mysqli_close($conn);
 	}
 
+	function regenerate_salt($id){
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$salt = hash("sha256", generate_sessionid());
+		mysqli_query($conn, "UPDATE accounts SET salt='$salt' WHERE id='$id'");
+		mysqli_close($conn);
+	}
+
 	function assign_usertag($userid, $usertagid){
 		$conn = sql_connect();
 		$userid = mysqli_real_escape_string($conn, $userid);
 		$usertagid = mysqli_real_escape_string($conn, $usertagid);
 		mysqli_query($conn, "UPDATE accounts SET tag='$usertagid' WHERE id='$userid'");
+		mysqli_close($conn);
+	}
+
+	function issue_user_ban($id, $reason, $time){
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$reason = mysqli_real_escape_string($conn, $reason);
+		$time = mysqli_real_escape_string($conn, $time);
+		$currTime = time();
+		$unbanTime = $currTime + $time;
+		$currAccount = get_current_account()->id;
+		mysqli_query($conn, "UPDATE accounts SET bannedtime='$currTime',unbantime='$unbanTime',bannedmsg='$reason',bannedby='$currAccount' WHERE id='$id'");
 		mysqli_close($conn);
 	}
 ?>

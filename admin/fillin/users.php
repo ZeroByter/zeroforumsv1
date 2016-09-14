@@ -9,6 +9,18 @@
     .navbar .container-fluid, .navbar-collapse {
         padding-left:5;
     }
+
+    #ban_prompt{
+        position: absolute;
+        width: 425px;
+        left: 60%;
+        margin-left: -212.5px;
+        top: 160px;
+    }
+    #ban_prompt_close{
+        color: white;
+        float: right;
+    }
 </style>
 
 <nav id="nav_bar" class="navbar navbar-default">
@@ -38,8 +50,8 @@
                         ?>
                     </ul>
                 </div>
-                <button type="button" disabled class="btn btn-warning navbar-btn users_actions_btn">Warn user</button>
-                <button type="button" disabled class="btn btn-danger navbar-btn users_actions_btn">Ban user</button>
+                <button type="button" disabled class="btn btn-warning navbar-btn users_actions_btn" id="warnuser">Warn user</button>
+                <button type="button" disabled class="btn btn-danger navbar-btn users_actions_btn" id="banuser">Ban user</button>
 			</ul>
 		</div>
 	</div>
@@ -47,6 +59,8 @@
 <table id="users_main_table" class="table table-bordered">
     <thead>
         <tr class="header">
+            <th>Is banned</th>
+            <th>Is warned</th>
             <th>Joined</th>
             <th>Last active</th>
             <th>Username</th>
@@ -62,6 +76,8 @@
                     $lastactive = get_human_time($value->lastactive);
                     echo "
                         <tr class='users_list_row' data-id='$value->id'>
+                            <td>n/a</td>
+                            <td>n/a</td>
                             <td>$lastjoined ago</td>
                             <td>$lastactive ago</td>
                             <td>$value->username</td>
@@ -74,6 +90,32 @@
         ?>
     </tbody>
 </table>
+
+<div class="panel panel-primary" id="ban_prompt" style="display: none;">
+    <div class="panel-heading">Ban prompt<a href="javascript:void(0)" id="ban_prompt_close">Close</a></div>
+    <div class="panel-body">
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Ban reason</span>
+        <input type="text" class="form-control" id="ban_prompt_reason_in">
+    </div><br>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Ban time</span>
+        <input type="number" class="form-control" value="1" id="ban_prompt_time_in">
+        <select class="form-control" id="ban_prompt_time_type_in">
+            <option>Minutes</option>
+            <option>Hours</option>
+            <option>Days</option>
+            <option>Weeks</option>
+            <option>Months</option>
+            <option>Years</option>
+        </select>
+        </div><br>
+        <center>
+            <button type="button" class="btn btn-primary" id="ban_prompt_issue_ban">Issue ban</button>
+            <button type="button" class="btn btn-default" id="ban_prompt_cancel">Cancel ban</button>
+        </center>
+    </div>
+</div>
 
 <script>
     var selectedUser
@@ -95,6 +137,51 @@
         $.post("/admin/requests/setusertag", {userid: userid, usertagid: usertagid}, function(html){
             console.log(html)
             redo_users_panel()
+        })
+    })
+
+    $("#banuser").click(function(){
+        $("#ban_prompt").css("display", "block")
+    })
+
+    $("#ban_prompt_close, #ban_prompt_cancel").click(function(){
+    	$("#ban_prompt").css("display", "none")
+    })
+
+    var time = 1
+    var timetype = "minutes"
+    function get_real_time(){
+    	if(timetype == "minutes"){
+      	return time * 60
+      }
+      if(timetype == "hours"){
+      	return time * 60 * 60
+      }
+      if(timetype == "days"){
+      	return time * 60 * 60 * 24
+      }
+      if(timetype == "weeks"){
+      	return time * 60 * 60 * 24 * 7
+      }
+      if(timetype == "months"){
+      	return time * 60 * 60 * 24 * 7 * 4
+      }
+      if(timetype == "years"){
+      	return time * 60 * 60 * 24 * 7 * 4 * 12
+      }
+    }
+
+    $("#ban_prompt_time_in").keyup(function(){
+        time = $(this).val()
+    })
+    $("#ban_prompt_time_type_in").change(function(){
+    	timetype = $(this).val().toLowerCase()
+    })
+
+    $("#ban_prompt_issue_ban").click(function(){
+        $.post("/admin/requests/banuser", {id: $(selectedUser).data("id"), reason: $("#ban_prompt_reason_in").val(), time: get_real_time()}, function(html){
+            console.log(html)
+            $("#ban_prompt").css("display", "none")
         })
     })
 </script>

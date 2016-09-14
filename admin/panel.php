@@ -19,14 +19,19 @@
 </style>
 
 <ul class="nav nav-tabs">
+    <li role="presentation" id="news_tab" class="navbar_link"><a href="javascript:void(0)">News posts</a></li>
     <li role="presentation" id="forums_tab" class="navbar_link"><a href="javascript:void(0)">Forums</a></li>
     <li role="presentation" id="users_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/userspanel">Users</a></li>
     <li role="presentation" id="usertags_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/usertagspanel">User tags</a></li>
     <li role="presentation" id="permissions_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/permissionspanel">Permissions</a></li>
     <li role="presentation" id="navigation_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/navgiationpanel">Navigation bar</a></li>
+    <li role="presentation" id="logs_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/logspanel">Logs</a></li>
 </ul>
 
 <?
+    if(!tag_has_permission(get_current_usertag(), "adminpnl_news_tab")){
+        echo "<script>$('#news_tab').remove()</script>";
+    }
     if(!tag_has_permission(get_current_usertag(), "adminpnl_forums_tab")){
         echo "<script>$('#forums_tab').remove()</script>";
     }
@@ -41,6 +46,9 @@
     }
     if(!tag_has_permission(get_current_usertag(), "adminpnl_navigation_tab")){
         echo "<script>$('#navigation_tab').remove()</script>";
+    }
+    if(!tag_has_permission(get_current_usertag(), "adminpnl_logs_tab")){
+        echo "<script>$('#logs_tab').remove()</script>";
     }
 ?>
 
