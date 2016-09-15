@@ -8,7 +8,8 @@
 ### How do I get set up? ###
 
 * You need a MySQL database
-* change /phpscripts/getsql.php accordingly to your MySQL configuration.
+* Change /phpscripts/getsql.php accordingly to your MySQL configuration.
+* Run website, then go to page /phpscripts/createdefault. This will create all the PHP databases, initiate basic information such as default links and usertags, and will generate the default admin account with the username = "admin" and the password = "admin". Log onto this account and change the password (and username if you would like) as soon as possible or your website will be vulnerable!
 
 ### Who can I talk to? ###
 
