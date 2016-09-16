@@ -31,13 +31,10 @@
 							$canview = can_tag_do(get_current_usertag_or_default(), $value->canview);
 
 							if($canview){
-								if($value->parameters == ""){
-									echo "<li class='$classStr'><a href='$value->link'>$value->text</a></li>";
+								if($value->link == "/admin/panel"){
+									echo "<li class='$classStr'><a href='javascript:void(0)' class='navbar_newwindow' data-link='$value->link' data-width='800' data-height='600'>$value->text</a></li>";
 								}else{
-									$parameters = explode(",", $value->parameters);
-									if($parameters[0] == "window"){
-										echo "<li class='$classStr'><a href='#' class='navbar_newwindow' data-link='$value->link' data-width='$parameters[1]' data-height='$parameters[2]'>$value->text</a></li>";
-									}
+									echo "<li class='$classStr'><a href='$value->link'>$value->text</a></li>";
 								}
 							}
 						}
@@ -50,7 +47,6 @@
 
 <script>
 	$(".navbar_newwindow").click(function(){
-
 		var w = $(this).data("width")
 		var h = $(this).data("height")
 

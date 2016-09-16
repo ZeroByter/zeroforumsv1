@@ -23,6 +23,8 @@
 	$permissions[] = "adminpnl_logs_tab";
 	$permissions[] = "adminpnl_ignore_usertag_limit";
 	$permissionsInfo["adminpnl_ignore_usertag_limit"] = array("name" => "Admin panel: ignore usertag listorder limit", "desc" => "View all usertags, regardless if they are higher sorted than user's");
+	$permissions[] = "logs_download_log";
+	$permissionsInfo["logs_download_log"] = array("name" => "Download logs files", "desc" => "Download logs into .txt files from the logs tab");
 
 	function get_permissions(){
 		return $permissions;

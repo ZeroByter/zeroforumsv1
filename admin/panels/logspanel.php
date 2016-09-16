@@ -3,8 +3,9 @@
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
     include("../../phpscripts/navigatebar.php");
+    include("../../phpscripts/logs.php");
 
-    if(!tag_has_permission(get_current_usertag(), "adminpnl_navigation_tab")){
+    if(!tag_has_permission(get_current_usertag(), "adminpnl_logs_tab")){
         echo "<script>window.close()</script>";
     }
 ?>
@@ -27,33 +28,53 @@
                 return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
             }
 
-            foreach(scandir($_SERVER["DOCUMENT_ROOT"] . "/logs", 1) as $num => $value){
-                //if(endsWith($value, ".txt") && strpos($value, '-') !== false){
-                //    $date = str_replace(".txt", "", $value);
-                //    $date = str_replace("-", "/", $date);
+            $canDownload = tag_has_permission(get_current_usertag(), "logs_download_log");
 
-                //    echo "
-                //        <div class='panel panel-default'>
-                //            <div class='panel-heading'>$date</div>
-                //            <div class='panel-body'>
-                //                <button class='btn btn-default'>View</button>
-                //                <button class='btn btn-default download_log_btn' data-date='$value'>Download</button>
-                //            </div>
-                //        </div>
-                //    ";
-                //}
+            foreach(get_all_log_dates() as $value){
+                $downloadHTML = "<button class='btn btn-default download_log_btn' data-date='$value'>Download</button>";
+                if(!$canDownload){
+                    $downloadHTML = "";
+                }
+                echo "
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>$value</div>
+                        <div class='panel-body'>
+                            <button class='btn btn-default view_log_btn' data-date='$value'>View</button>
+                            $downloadHTML
+                        </div>
+                    </div>
+                ";
             }
         ?>
     </div>
 </div>
 
-<iframe id="download_iframe" style="display:none;"></iframe>
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip()
     })
 
     $(".download_log_btn").click(function(){
+        var w = 600
+		var h = 160
 
+        var width = screen.width
+		var height = screen.height
+		var left = (width / 2) - (w / 2)
+		var top = (height / 2) - (h / 2)
+
+        window.open("/phpscripts/downloadlog?date=" + $(this).data("date"), "_blank", "width=" + w + ",height=" + h + ",top=" + top + ",left=" + left)
+    })
+    $(".view_log_btn").click(function(){
+        var w = 600
+		var h = 700
+
+        var width = screen.width
+		var height = screen.height
+		var left = (width / 2) - (w / 2)
+		var top = (height / 2) - (h / 2)
+
+        var newWindow = window.open("/admin/panels/viewlog?date=" + $(this).data("date"), "_blank", "width=" + w + ",height=" + h + ",top=" + top + ",left=" + left)
+		newWindow.focus()
     })
 </script>

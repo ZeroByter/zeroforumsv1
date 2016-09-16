@@ -10,7 +10,6 @@
 			listorder int(6) NOT NULL,
 			canedit boolean NOT NULL,
 			candelete boolean NOT NULL,
-			parameters text NOT NULL,
 			PRIMARY KEY(id), UNIQUE id (id), KEY id_2 (id))");
 		mysqli_close($conn);
 	}

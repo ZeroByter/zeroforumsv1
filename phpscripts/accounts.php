@@ -135,7 +135,6 @@
 
 	function account_login($username){
 		$account = get_account_by_username($username);
-		regenerate_salt($account->id);
 		setcookie("sessionid", $account->sessionid, 0, "/");
 	}
 
@@ -153,21 +152,13 @@
 		$salt = hash("sha256", generate_sessionid());
 		$username = mysqli_real_escape_string($conn, $username);
 		$displayname = mysqli_real_escape_string($conn, $displayname);
-		$password = mysqli_real_escape_string($conn, "$password:$salt");
 		$password = hash("sha256", $password);
+		$password = mysqli_real_escape_string($conn, "$password:$salt");
 		$tag = mysqli_real_escape_string($conn, $tag);
 		$email = mysqli_real_escape_string($conn, $email);
 		$bio = mysqli_real_escape_string($conn, $bio);
 		$time = time();
 		mysqli_query($conn, "INSERT INTO accounts(username, password, displayname, tag, email, bio, sessionid, salt, lastactive, joined) VALUES ('$username', '$password', '$displayname', '$tag', '$email', '$bio', '$sessionid', '$salt', '$time', '$time')");
-		mysqli_close($conn);
-	}
-
-	function regenerate_salt($id){
-		$conn = sql_connect();
-		$id = mysqli_real_escape_string($conn, $id);
-		$salt = hash("sha256", generate_sessionid());
-		mysqli_query($conn, "UPDATE accounts SET salt='$salt' WHERE id='$id'");
 		mysqli_close($conn);
 	}
 
