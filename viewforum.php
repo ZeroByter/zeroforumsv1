@@ -32,7 +32,6 @@
 				</ol>
 				<div class="well" style="padding-top:0px;">
 					<div id="forum_actions">
-						<a href="/postthread?parent=<?echo $subforum->id;?>"><button type="button" class="btn btn-success" id="new_thread_btn">Post thread</button></a>
 						<button type="button" class="btn btn-info" id="search_btn">Search forum</button>
 						<input type="text" class="form-control" style="width:200px;display:inline;">
 					</div>

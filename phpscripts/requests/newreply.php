@@ -14,7 +14,7 @@
             $parent = get_forum_by_id($thread->parent);
             $currenttag = get_current_usertag();
             if(can_tag_do($currenttag, $parent->canpost)){
-                if(tag_has_permission($currenttag, "createreply")){
+                if(tag_has_permission($currenttag, "forums_createreply")){
                     forums_create_reply($thread->id, $text);
                     create_log(get_current_account()->username . " posted a reply on $thread->name -> $parent->name with text '$text'");
                     forums_update_lastactive($thread->id);

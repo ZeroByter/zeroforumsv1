@@ -80,16 +80,24 @@
         <button id="select_none" data-state="false">Select none</button><br><br>
         <?
             echo "<span id='all_permissions' data-permissions='" . implode(";", $permissions) . "'></span>";
-            foreach($permissions as $value){
-                $name = $value;
-                $title = "";
-                if(isset($permissionsInfo[$value])){
-                    $name = $permissionsInfo[$value]["name"];
-                    $title = $permissionsInfo[$value]["desc"];
+
+            function echoPermissions($beginsWith){
+                foreach($GLOBALS["permissions"] as $value){
+                    $name = $value;
+                    $title = "";
+                    if(isset($GLOBALS["permissionsInfo"][$value])){
+                        $name = $GLOBALS["permissionsInfo"][$value]["name"];
+                        $title = $GLOBALS["permissionsInfo"][$value]["desc"];
+                    }
+                    if(strpos($value, $beginsWith) === 0){
+                        echo "<button class='permission_btn' data-name='$value' data-state='false' title='$title'>$name</button>";
+                    }
                 }
-                echo "<button class='permission_btn' data-name='$value' data-state='false' title='$title'>$name</button>";
             }
         ?>
+
+        <h4>Forums:</h4> <?echoPermissions("forums");?>
+        <h4>Admin panel:</h4> <?echoPermissions("adminpnl");?>
     </center>
 </div>
 

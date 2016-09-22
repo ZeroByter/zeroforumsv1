@@ -36,7 +36,7 @@
     <?
         foreach(get_logs_by_date($_GET["date"]) as $value){
             if($value){
-                echo "<span class='label label-primary log_time'>$value->time:</span><span class='label label-default log_text'>$value->text</span><br>";
+                echo "<div><span class='label label-primary log_time'>$value->time:</span><span class='label label-default log_text'>$value->text</span></div>";
             }
         }
     ?>

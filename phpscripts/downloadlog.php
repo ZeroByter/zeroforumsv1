@@ -6,7 +6,8 @@
 
     if(isset($_GET["date"])){
         if(tag_has_permission(get_current_usertag(), "logs_download_log")){
-            $file = $_SERVER['DOCUMENT_ROOT'] . "/logfile.txt";
+            $date = str_replace("/", "-", $_GET["date"]);
+            $file = $_SERVER['DOCUMENT_ROOT'] . "/$date logs.txt";
 
             create_log(get_current_account()->username . " downloaded the logs from " . $_GET["date"]);
 

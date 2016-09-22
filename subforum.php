@@ -9,12 +9,16 @@
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
 	include("phpscripts/usertags.php");
+	include("phpscripts/essentials.php");
 
 	if(!$_GET["id"]){
 		echo "<script>window.location = '/forums'</script>";
 	}
 
 	$subforum = get_forum_by_id($_GET["id"]);
+	if(isset(get_forum_by_id($subforum->parent)->name) === false){
+		redirectWindow("/forums");
+	}
 ?>
 
 <span id="getid" data-id="<?echo $_GET["id"];?>"></span>
@@ -46,7 +50,7 @@
 </div>
 
 <?
-	if(!tag_has_permission(get_current_account()->tag, "createthread")){
+	if(!tag_has_permission(get_current_account()->tag, "forums_createthread")){
 		echo "<script id='remove_script'>$('#forum_actions').children()[0].remove();$('#remove_script').remove()</script>";
 	}
 ?>

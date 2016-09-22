@@ -11,3 +11,15 @@
     margin: 18px auto;
     display: none;
 }
+ol, ul{
+    margin-bottom: 0px;
+}
+
+.thread_main_body_div{
+    position: relative;
+}
+.reply_actions_div{
+    position: absolute;
+    bottom: 4px;
+    right: 6px;
+}

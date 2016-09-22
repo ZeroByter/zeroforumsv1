@@ -61,6 +61,7 @@
 <div id="navigation_links_list_div">
     <center><br><span class="glyphicon glyphicon-link"></span> Navigation links</center>
     <br>
+    <div class='navigation_fake_link_list_div' id="edit_navbar_title" style="color: green;">Change website title</div>
     <div class='navigation_fake_link_list_div' id="create_new_link" style="color: green;">Create a new link</div>
     <span id="fillin_navigatelist"></span>
 </div>
@@ -75,6 +76,11 @@
 
     $("#create_new_link").click(function(){
         $.get("fillin/getcreatenavigatelink", function(html){
+            $("#fillin_navigatebar").html(html)
+        })
+    })
+    $("#edit_navbar_title").click(function(){
+        $.get("fillin/getchangenavbartitle", function(html){
             $("#fillin_navigatebar").html(html)
         })
     })

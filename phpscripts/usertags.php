@@ -2,12 +2,17 @@
 	$permissions = [];
 	$permissionsInfo = [];
 	// Forums permissions
-	$permissions[] = "createthread";
-	$permissionsInfo["createthread"] = array("name" => "Create thread", "desc" => "Create a forum thread");
-	$permissions[] = "createreply";
-	$permissionsInfo["createreply"] = array("name" => "Create reply", "desc" => "Create a thread reply");
-	$permissions[] = "viewhiddenthread";
-	$permissionsInfo["viewhiddenthread"] = array("name" => "View hidden threads", "desc" => "View threads which are tagged as hidden from everyone else");
+	$permissions[] = "forums_createthread";
+	$permissionsInfo["forums_createthread"] = array("name" => "Forums: Create thread", "desc" => "Create a forum thread");
+	$permissions[] = "forums_createreply";
+	$permissionsInfo["forums_createreply"] = array("name" => "Forums: Create reply", "desc" => "Create a thread reply");
+	$permissions[] = "forums_replyonlocked";
+	$permissions[] = "forums_threadlockunlock";
+	$permissions[] = "forums_threadpinunpin";
+	$permissions[] = "forums_threadhideunhide";
+	$permissions[] = "forums_viewhiddenthread";
+	$permissionsInfo["forums_viewhiddenthread"] = array("name" => "Forums: View hidden threads", "desc" => "View threads which are tagged as hidden from everyone else");
+	$permissions[] = "forums_editothers";
 	// Admin panel permissions
 	$permissions[] = "adminpnl_news_tab";
 	$permissions[] = "adminpnl_forums_tab";

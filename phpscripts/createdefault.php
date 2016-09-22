@@ -16,7 +16,7 @@
 		set_navbar_title("My website title");
 		add_navbar_link("Forums", "/forums", "all", 1, "", false, false);
 		add_navbar_link("Admin panel", "/admin/panel", "staff", 2, "", true, false);
-		add_usertag("User", "createreply;createthread;", 1, false, false);
+		add_usertag("User", "forums_createreply;forums_createthread;", 1, false, false);
 		add_usertag("Super Admin", "*;", 2, false, true);
 		forums_create_forum("My forum", "My forum's description", 1);
 		forums_create_subforum(1, "My first sub-forum!", "My sub-forum's description", 1);

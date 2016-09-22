@@ -9,6 +9,7 @@
 	include("phpscripts/essentials.php");
 	include("phpscripts/accounts.php");
 	include("phpscripts/usertags.php");
+	include("phpscripts/checkwarnings.php");
 	$lastAccount = get_last_joined_account();
 
 	//file_put_contents("google.com.png", file_get_contents("http://assets.barcroftmedia.com.s3-website-eu-west-1.amazonaws.com/assets/images/recent-images-11.jpg"));

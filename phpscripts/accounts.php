@@ -25,6 +25,12 @@
 
 		while($array[] = mysqli_fetch_object($result));
 
+		foreach($array as $value){
+			if($value){
+				confirm_ban($value->id);
+			}
+		}
+
 		return $array;
     }
 
@@ -35,6 +41,12 @@
 		mysqli_close($conn);
 
 		while($array[] = mysqli_fetch_object($result));
+
+		foreach($array as $value){
+			if($value){
+				confirm_ban($value->id);
+			}
+		}
 
 		return $array;
     }
@@ -170,6 +182,10 @@
 		mysqli_close($conn);
 	}
 
+	function get_user_warnings($id){
+		return array();
+	}
+
 	function issue_user_ban($id, $reason, $time){
 		$conn = sql_connect();
 		$id = mysqli_real_escape_string($conn, $id);
@@ -180,5 +196,21 @@
 		$currAccount = get_current_account()->id;
 		mysqli_query($conn, "UPDATE accounts SET bannedtime='$currTime',unbantime='$unbanTime',bannedmsg='$reason',bannedby='$currAccount' WHERE id='$id'");
 		mysqli_close($conn);
+	}
+
+	function confirm_ban($id){
+		$account = get_account_by_id($id);
+		if($account->bannedby != 0){
+			if($account->unbantime < time()){
+				$conn = sql_connect();
+				mysqli_query($conn, "UPDATE accounts SET bannedtime='0',unbantime='0',bannedmsg='',bannedby='0' WHERE id='$account->id'");
+				mysqli_close($conn);
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
 	}
 ?>

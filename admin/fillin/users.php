@@ -51,7 +51,8 @@
                     </ul>
                 </div>
                 <button type="button" disabled class="btn btn-warning navbar-btn users_actions_btn" id="warnuser">Warn user</button>
-                <button type="button" disabled class="btn btn-danger navbar-btn users_actions_btn" id="banuser">Ban user</button>
+                <button type="button" disabled class="btn btn-danger navbar-btn users_actions_btn test" id="banuser">Ban user</button>
+                <button type="button" disabled class="btn btn-default navbar-btn users_actions_btn" id="unbanuser">Unban user</button>
 			</ul>
 		</div>
 	</div>
@@ -74,9 +75,11 @@
                 if($value){
                     $lastjoined = get_human_time($value->joined);
                     $lastactive = get_human_time($value->lastactive);
+                    $isbanned = ($value->bannedby != 0) ? "Yes" : "No";
+                    $isbannedraw = ($value->bannedby != 0) ? "true" : "false";
                     echo "
-                        <tr class='users_list_row' data-id='$value->id'>
-                            <td>n/a</td>
+                        <tr class='users_list_row' data-id='$value->id' data-isbanned='$isbannedraw'>
+                            <td>$isbanned</td>
                             <td>n/a</td>
                             <td>$lastjoined ago</td>
                             <td>$lastactive ago</td>
@@ -100,8 +103,8 @@
     </div><br>
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">Ban time</span>
-        <input type="number" class="form-control" value="1" id="ban_prompt_time_in">
-        <select class="form-control" id="ban_prompt_time_type_in">
+        <input type="number" class="form-control" value="1" id="ban_prompt_time_in" disabled>
+        <select class="form-control" id="ban_prompt_time_type_in" disabled>
             <option>Minutes</option>
             <option>Hours</option>
             <option>Days</option>
@@ -111,7 +114,7 @@
         </select>
         </div><br>
         <center>
-            <button type="button" class="btn btn-primary" id="ban_prompt_issue_ban">Issue ban</button>
+            <button type="button" class="btn btn-primary" id="ban_prompt_issue_ban" disabled>Issue ban</button>
             <button type="button" class="btn btn-default" id="ban_prompt_cancel">Cancel ban</button>
         </center>
     </div>
@@ -126,6 +129,14 @@
         $(this).addClass("row_active")
         selectedUser = this
 
+        if($(this).data("isbanned") == true){
+            $("#unbanuser").css("display", "block-inline")
+            $("#banuser").css("display", "none")
+        }else{
+            $("#unbanuser").css("display", "none")
+            $("#banuser").css("display", "block-inline")
+        }
+
         $(".users_actions_btn").each(function(i, v){
             $(v).removeAttr("disabled")
         })
@@ -138,6 +149,15 @@
             console.log(html)
             redo_users_panel()
         })
+    })
+
+    $("#warnuser").click(function(){
+        var reason = prompt("Please state your reason for warning!")
+        if(reason){
+            $.post("/admin/requests/warnuser", {id: $(selectedUser).data("id"), reason: reason}, function(html){
+
+            })
+        }
     })
 
     $("#banuser").click(function(){
@@ -171,6 +191,17 @@
       }
     }
 
+    $("#ban_prompt_reason_in").keyup(function(){
+        if($(this).val() == ""){
+            $("#ban_prompt_time_in").attr("disabled", "")
+            $("#ban_prompt_time_type_in").attr("disabled", "")
+            $("#ban_prompt_issue_ban").attr("disabled", "")
+        }else{
+            $("#ban_prompt_time_in").removeAttr("disabled", "")
+            $("#ban_prompt_time_type_in").removeAttr("disabled", "")
+            $("#ban_prompt_issue_ban").removeAttr("disabled", "")
+        }
+    })
     $("#ban_prompt_time_in").keyup(function(){
         time = $(this).val()
     })

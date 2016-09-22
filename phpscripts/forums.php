@@ -87,7 +87,7 @@
         if($parent == 0){
             $result = mysqli_query($conn, "SELECT * FROM forums WHERE type='thread' ORDER BY lastactive DESC");
         }else{
-            if(tag_has_permission(get_current_usertag(), "viewhiddenthread")){
+            if(tag_has_permission(get_current_usertag(), "forums_viewhiddenthread")){
                 $result = mysqli_query($conn, "SELECT * FROM forums WHERE type='thread' && parent='$parent' ORDER BY lastactive DESC");
             }else{
                 $result = mysqli_query($conn, "SELECT * FROM forums WHERE type='thread' && hidden='0' && parent='$parent' ORDER BY lastactive DESC");
@@ -175,6 +175,40 @@
         $poster = get_current_account()->id;
         $time = time();
 		$result = mysqli_query($conn, "INSERT INTO forums(firstposted, type, posttext, poster, parent) VALUES ('$time', 'reply', '$text', '$poster', '$thread')");
+		mysqli_close($conn);
+    }
+
+    function forums_create_thread($subforum, $subject, $body){
+        $conn = sql_connect();
+        $subforum = mysqli_real_escape_string($conn, $subforum);
+        $subject = mysqli_real_escape_string($conn, $subject);
+        $body = mysqli_real_escape_string($conn, $body);
+        $poster = get_current_account()->id;
+        $time = time();
+		$result = mysqli_query($conn, "INSERT INTO forums(firstposted, lastactive, type, name, posttext, poster, parent) VALUES ('$time', '$time', 'thread', '$subject', '$body', '$poster', '$subforum')");
+		mysqli_close($conn);
+    }
+
+    function thread_toggle_lock($id){
+        $conn = sql_connect();
+        $id = mysqli_real_escape_string($conn, $id);
+		$result = mysqli_query($conn, "UPDATE forums SET locked = NOT locked WHERE id='$id'");
+		mysqli_close($conn);
+    }
+
+    function thread_delete($id){
+        $conn = sql_connect();
+        $id = mysqli_real_escape_string($conn, $id);
+		$result = mysqli_query($conn, "DELETE FROM forums WHERE id='$id'");
+		mysqli_close($conn);
+    }
+
+    function thread_edit($id, $subject, $body){
+        $conn = sql_connect();
+        $id = mysqli_real_escape_string($conn, $id);
+        $subject = mysqli_real_escape_string($conn, $subject);
+        $body = mysqli_real_escape_string($conn, $body);
+		$result = mysqli_query($conn, "UPDATE forums SET name='$subject', posttext='$body' WHERE id='$id'");
 		mysqli_close($conn);
     }
 ?>

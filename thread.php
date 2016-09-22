@@ -1,7 +1,8 @@
 <script src="/jsscripts/jquery.js"></script>
 <script src="/jsscripts/bootstrap.js"></script>
-<script src="/ckeditor/ckeditor.js"></script>
+<script src="/jsscripts/zeroeditor.js"></script>
 <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+<link href="/stylesheets/font-awesome.css" rel="stylesheet">
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/thread.css" rel="stylesheet">
 
@@ -10,13 +11,14 @@
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
 	include("phpscripts/usertags.php");
+	include("phpscripts/essentials.php");
 
 	if(!$_GET["id"]){
 		echo "<script>window.location = '/forums'</script>";
 	}
 
 	$thread = get_forum_by_id($_GET["id"]);
-	if($thread->hidden && !tag_has_permission(get_current_usertag(), "viewhiddenthread")){
+	if($thread->hidden && !tag_has_permission(get_current_usertag(), "forums_viewhiddenthread")){
 		echo "<script>window.location = '/forums'</script>";
 	}
 	$parent = get_forum_by_id($thread->parent);
@@ -38,19 +40,23 @@
 				</ol>
                 <div id="thread_actions">
 					<?
-						if($thread->locked && tag_has_permission(get_current_usertag(), "replyonlocked")){
+						if($thread->locked && tag_has_permission(get_current_usertag(), "forums_replyonlocked")){
 							echo "<span class='label label-info'>This thread is locked, but you possess the 'replyonlocked' permission!</span><br><br>";
-						}elseif($thread->locked && !tag_has_permission(get_current_usertag(), "replyonlocked")){
+						}elseif($thread->locked && !tag_has_permission(get_current_usertag(), "forums_replyonlocked")){
 							echo "<span class='label label-info'>This thread is locked</span><br><br>";
 						}
 						if($thread->pinned){
 							echo "<span class='label label-info'>This thread is pinned</span><br><br>";
 						}
 						if($thread->hidden){
-							echo "<span class='label label-info'>This thread is hidden, but you possess the 'viewhiddenthread' permission!</span><br><br>";
+							echo "<span class='label label-info'>This thread is hidden, but you possess the 'forums_viewhiddenthread' permission!</span><br><br>";
 						}
 					?>
                     <button type="button" class="btn btn-success" id="new_reply_btn">Post reply</button>
+                    <button type="button" class="btn btn-primary" id="edit_thread_btn">Edit thread</button>
+                    <button type="button" class="btn btn-primary" id="lock_thread_btn">Lock thread</button>
+                    <button type="button" class="btn btn-primary" id="unlock_thread_btn">Unlock thread</button>
+                    <button type="button" class="btn btn-danger" id="delete_thread_btn">Delete thread</button>
                 </div>
 				<div class="panel panel-default" style="border-color:#c3c6ff;">
 					<div class="panel-heading" style="overflow:auto;background:#dbdcec;">
@@ -58,7 +64,7 @@
 							<?echo $thread->name;?>
 						</div>
 						<div id="thread_replies" style="float:right;">
-							0 replies
+							<?echo count(get_all_replies($thread->id)) - 1;?> replies
 						</div>
 					</div>
 					<div class="panel-body">
@@ -66,7 +72,7 @@
 							<a href="#"><?echo get_account_display_name($thread->poster);?></a><br>
 							<?echo get_account_by_id($thread->poster)->posts;?> posts<br>
 						</div>
-						<div style="float:left;">
+						<div id="thread_body_div" style="float:left;">
 							<?echo $thread->posttext;?>
 						</div>
 					</div>
@@ -78,7 +84,7 @@
                         <button type="button" class="btn btn-default" id="new_reply_close" style="float:right;margin-top:-5px;padding:6px;"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
                     <div class="panel-body">
-                        <textarea name="editor" id="editor"></textarea><br>
+                        <div id="fillin_zeroeditor"></div>
                         <button type="button" class="btn btn-default" id="post_reply_btn"><span class="glyphicon glyphicon-ok"></span> Post reply</button>
                     </div>
                 </div>
@@ -88,9 +94,26 @@
 </div>
 
 <?
-    if(!tag_has_permission(get_current_usertag(), "createreply") || ($thread->locked && !tag_has_permission(get_current_usertag(), "replyonlocked"))){
-        echo "<script id='remove_script'>$('#thread_reply').remove();$('#new_reply_btn').remove();$('#remove_script').remove()</script>";
+    if(!tag_has_permission(get_current_usertag(), "forums_createreply") || ($thread->locked && !tag_has_permission(get_current_usertag(), "replyonlocked"))){
+		removeHTMLElement("#thread_reply");
+		removeHTMLElement("#new_reply_btn");
     }
+	if(!tag_has_permission(get_current_usertag(), "forums_threadlockunlock")){
+		removeHTMLElement("#lock_thread_btn");
+		removeHTMLElement("#unlock_thread_btn");
+	}else{
+		if($thread->locked){
+			hideHTMLElement("#lock_thread_btn");
+		}else{
+			hideHTMLElement("#unlock_thread_btn");
+		}
+	}
+	if($thread->poster != get_current_account()->id){
+		if(!tag_has_permission(get_current_usertag(), "forums_editothers")){
+			removeHTMLElement("#edit_thread_btn");
+			removeHTMLElement("#delete_thread_btn");
+		}
+	}
 ?>
 
 <script src="/jsscripts/thread.js"></script>
