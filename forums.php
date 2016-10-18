@@ -9,6 +9,7 @@
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
 	include("phpscripts/essentials.php");
+	include("phpscripts/checkwarnings.php");
 ?>
 
 <div id="main_body">

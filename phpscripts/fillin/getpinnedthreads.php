@@ -19,6 +19,10 @@
             if($value->hidden){
                 continue;
             }
+            $parent = get_forum_by_id($value->parent);
+            if(!can_tag_do(get_current_usertag_or_default(), $parent->canview)){
+                continue;
+            }
             $posterName = get_account_display_name($value->poster);
             $replies = count(get_all_replies($value->id)) - 1;
             $views = 0;

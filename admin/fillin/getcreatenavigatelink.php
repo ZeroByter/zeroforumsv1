@@ -42,9 +42,9 @@
         </div>
         <div class="link_canview_div">
             Who can view?<br><br>
-            <button class="toggle_btn" id="canview_all" data-name="all" data-state="false">All</button>
+            <button class="toggle_btn" id="canview_all" data-name="all" data-state="true">All</button>
             <button class="toggle_btn" id="canview_registered" data-name="registered" data-state="false">Registered</button>
-            <button class="toggle_btn" id="canview_non-registered" data-name="non-registered" data-state="false">Non-registered</button>
+            
             <button class="toggle_btn" id="canview_staff" data-name="staff" data-state="false">Staff</button>
             <br>Usertags:<br>
             <?
@@ -60,7 +60,7 @@
 </div>
 
 <script>
-    var canviewstring = ""
+    var canviewstring = "all;"
 
     $(".toggle_btn").click(function(){
         var state = $(this).attr("data-state")
@@ -69,6 +69,10 @@
         if(state == "true"){ //turn off
             $(this).attr("data-state", "false")
             canviewstring = canviewstring.replace(new RegExp(name + ";", "g"), "")
+            if(canviewstring.length == 0){
+                canviewstring = "all;"
+                $("#canview_all").attr("data-state", "true")
+            }
         }else{ //turn on
             $(this).attr("data-state", "true")
             canviewstring = canviewstring + name + ";"

@@ -48,6 +48,7 @@ $("#register_submit").click(function(){
         }else{
             $("#final_warning").html("")
         }
+        console.log(html)
         if(html == "success"){
             window.location = "/"
         }

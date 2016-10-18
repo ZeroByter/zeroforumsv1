@@ -1,13 +1,14 @@
 <script src="/jsscripts/jquery.js"></script>
 <script src="/jsscripts/bootstrap.js"></script>
 <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+<link href="/stylesheets/font-awesome.css" rel="stylesheet">
 
 <?
     include("../phpscripts/getsql.php");
     include("../phpscripts/accounts.php");
     include("../phpscripts/usertags.php");
 
-    if(!can_tag_do(get_current_usertag(), "staff")){ //does the user's tag enable him to see this admin page
+    if(!can_tag_do(get_current_usertag(), "staff") || get_current_account()->unbantime > 0){ //does the user's tag enable him to see this admin page
         echo "<script>window.close()</script>";
     }
 ?>
@@ -19,8 +20,9 @@
 </style>
 
 <ul class="nav nav-tabs">
-    <li role="presentation" id="news_tab" class="navbar_link"><a href="javascript:void(0)">News posts</a></li>
-    <li role="presentation" id="forums_tab" class="navbar_link"><a href="javascript:void(0)">Forums</a></li>
+    <li role="presentation" id="news_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/newspostspanel">News posts</a></li>
+    <li role="presentation" id="forums_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/forumspanel">Forums</a></li>
+    <li role="presentation" id="rules_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/rulespanel">Rules</a></li>
     <li role="presentation" id="users_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/userspanel">Users</a></li>
     <li role="presentation" id="usertags_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/usertagspanel">User tags</a></li>
     <li role="presentation" id="permissions_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/permissionspanel">Permissions</a></li>
@@ -29,11 +31,14 @@
 </ul>
 
 <?
-    if(!tag_has_permission(get_current_usertag(), "adminpnl_news_tab")){
+    if(!tag_has_permission(get_current_usertag(), "adminpnl_newsposts_tab")){
         echo "<script>$('#news_tab').remove()</script>";
     }
     if(!tag_has_permission(get_current_usertag(), "adminpnl_forums_tab")){
         echo "<script>$('#forums_tab').remove()</script>";
+    }
+    if(!tag_has_permission(get_current_usertag(), "adminpnl_rules_tab")){
+        echo "<script>$('#rules_tab').remove()</script>";
     }
     if(!tag_has_permission(get_current_usertag(), "adminpnl_users_tab")){
         echo "<script>$('#users_tab').remove()</script>";

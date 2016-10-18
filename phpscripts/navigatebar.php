@@ -65,16 +65,15 @@
 		return $array;
 	}
 
-	function add_navbar_link($text, $link, $listorder, $canview, $parameters="", $canedit=true, $candelete=true){
+	function add_navbar_link($text, $link, $listorder, $canview, $canedit=true, $candelete=true){
 		$conn = sql_connect();
 		$text = mysqli_real_escape_string($conn, $text);
 		$link = mysqli_real_escape_string($conn, $link);
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 		$canview = mysqli_real_escape_string($conn, $canview);
-		$parameters = mysqli_real_escape_string($conn, $parameters);
 		$canedit = mysqli_real_escape_string($conn, $canedit);
 		$candelete = mysqli_real_escape_string($conn, $candelete);
-		mysqli_query($conn, "INSERT INTO navigatebar(type, text, link, canview, listorder, parameters, canedit, candelete) VALUES ('link', '$text', '$link', '$canview', '$listorder', '$parameters', '$canedit', '$candelete')");
+		mysqli_query($conn, "INSERT INTO navigatebar(type, text, link, canview, listorder, canedit, candelete) VALUES ('link', '$text', '$link', '$canview', '$listorder', '$canedit', '$candelete')");
 		mysqli_close($conn);
 	}
 

@@ -11,7 +11,7 @@
                 <button type="button" class="btn btn-default" id="bold"><span class="fa fa-bold"></span></button>
                 <button type="button" class="btn btn-default" id="italic"><span class="fa fa-italic"></span></button>
                 <button type="button" class="btn btn-default" id="underline"><span class="fa fa-underline"></span></button>
-                <button type="button" class="btn btn-default" id="underline"><span class="fa fa-strikethrough"></span></button>
+                <button type="button" class="btn btn-default" id="strikethrough"><span class="fa fa-strikethrough"></span></button>
             </div>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default" id="alignleft"><span class="fa fa-align-left"></span></button>

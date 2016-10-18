@@ -11,8 +11,8 @@
 
     if(isset($username) && isset($password)){
         if(get_account_by_username($username) == NULL){
-            create_account($username, $password, $displayname, get_default_usertag()->id, $email);
-            account_login($username);
+            $id = create_account($username, $password, $displayname, get_default_usertag()->id, $email);
+            account_login($id);
             create_log("$username registered and logged into a new account");
             echo "success";
         }else{

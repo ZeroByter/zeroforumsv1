@@ -9,6 +9,7 @@
 	include("phpscripts/usertags.php");
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
+	include("phpscripts/checkwarnings.php");
 
 	if(!$_GET["id"]){
 		echo "<script>window.location = '/forums'</script>";

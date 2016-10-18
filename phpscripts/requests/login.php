@@ -12,17 +12,17 @@
         $account = null;
         if(get_account_by_username($username)){
             $account = get_account_by_username($username);
-        }elseif(get_account_by_email($username)){
-            $account = get_account_by_username($username);
+        }elseif($username !== "" && get_account_by_email($username)){
+            $account = get_account_by_email($username);
         }else{
             echo "error:No account found by that username!";
         }
 
         if($account != null){
             if(hash("sha256", "$password:$account->salt") == $account->password){
-                account_login($username);
+                account_login($account->id);
                 echo "success";
-                create_log("$username logged in");
+                create_log("$account->username logged in");
             }else{
                 echo "error:Wrong password!";
                 create_log($_SERVER["REMOTE_ADDR"] . " attempted to login in with username: $username, password: $password");

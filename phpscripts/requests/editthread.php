@@ -11,6 +11,7 @@
             $currenttag = get_current_usertag();
             if($thread->poster == get_current_account()->id || tag_has_permission(get_current_usertag(), "forums_editothers")){
                 thread_edit($_POST["id"], $_POST["subject"], $_POST["body"]);
+                update_user_lastactive(get_current_account()->id);
                 echo "success";
             }else{
                 echo "error:no permissions!";

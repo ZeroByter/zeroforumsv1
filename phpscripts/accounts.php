@@ -12,8 +12,16 @@
 			salt varchar(64) NOT NULL,
 			tag int(6) NOT NULL,
 			email varchar(128) NOT NULL,
-			bio varchar(128) NOT NULL,
+			bio varchar(200) NOT NULL,
 			posts int(6) NOT NULL,
+			bannedtime int(6) NOT NULL,
+			unbantime int(6) NOT NULL,
+			bannedmsg varchar(128) NOT NULL,
+			bannedby int(6) NOT NULL,
+			warnings text NOT NULL,
+			iplist text NOT NULL,
+			privacy_show_email boolean NOT NULL,
+			privacy_use_displayname boolean NOT NULL,
 			PRIMARY KEY(id), UNIQUE id (id), KEY id_2 (id))");
 		mysqli_close($conn);
 	}
@@ -120,14 +128,18 @@
 	function get_account_display_name($id){
 		$conn = sql_connect();
 		$id = mysqli_real_escape_string($conn, $id);
-		$result = mysqli_query($conn, "SELECT username,displayname FROM accounts WHERE id='$id'");
+		$result = mysqli_query($conn, "SELECT privacy_use_displayname,username,displayname FROM accounts WHERE id='$id'");
 		mysqli_close($conn);
 		$object = mysqli_fetch_object($result);
 
-		if($object->displayname != ""){
-			return $object->displayname;
+		if($object->privacy_use_displayname){
+			if($object->displayname != ""){
+				return htmlspecialchars($object->displayname);
+			}else{
+				return htmlspecialchars($object->username);
+			}
 		}else{
-			return $object->username;
+			return htmlspecialchars($object->username);
 		}
 	}
 
@@ -145,13 +157,18 @@
 		}
 	}
 
-	function account_login($username){
-		$account = get_account_by_username($username);
+	function account_login($id){
+		$account = get_account_by_id($id);
+		add_user_iplist($id);
 		setcookie("sessionid", $account->sessionid, 0, "/");
 	}
 
 	function account_logout(){
 		setcookie("sessionid", "", -1, "/");
+	}
+
+	function is_account_logged_in(){
+
 	}
 
 	function generate_sessionid(){
@@ -164,14 +181,15 @@
 		$salt = hash("sha256", generate_sessionid());
 		$username = mysqli_real_escape_string($conn, $username);
 		$displayname = mysqli_real_escape_string($conn, $displayname);
-		$password = hash("sha256", $password);
-		$password = mysqli_real_escape_string($conn, "$password:$salt");
+		$password = mysqli_real_escape_string($conn, hash("sha256", "$password:$salt"));
 		$tag = mysqli_real_escape_string($conn, $tag);
 		$email = mysqli_real_escape_string($conn, $email);
 		$bio = mysqli_real_escape_string($conn, $bio);
 		$time = time();
-		mysqli_query($conn, "INSERT INTO accounts(username, password, displayname, tag, email, bio, sessionid, salt, lastactive, joined) VALUES ('$username', '$password', '$displayname', '$tag', '$email', '$bio', '$sessionid', '$salt', '$time', '$time')");
+		mysqli_query($conn, "INSERT INTO accounts(username, password, displayname, tag, email, bio, sessionid, salt, lastactive, joined, privacy_use_displayname) VALUES ('$username', '$password', '$displayname', '$tag', '$email', '$bio', '$sessionid', '$salt', '$time', '$time', '1')");
+		$lastid = mysqli_insert_id($conn);
 		mysqli_close($conn);
+		return $lastid;
 	}
 
 	function assign_usertag($userid, $usertagid){
@@ -182,8 +200,58 @@
 		mysqli_close($conn);
 	}
 
+	function add_user_posts($id){
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$time = time();
+		mysqli_query($conn, "UPDATE accounts SET posts=posts+1,lastactive='$time' WHERE id='$id'");
+		mysqli_close($conn);
+	}
+
 	function get_user_warnings($id){
-		return array();
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$result = mysqli_query($conn, "SELECT warnings FROM accounts WHERE id='$id'");
+		mysqli_close($conn);
+		$warningsArray = json_decode(mysqli_fetch_object($result)->warnings);
+
+		if(gettype($warningsArray) == "NULL"){
+			return array();
+		}else{
+			return $warningsArray;
+		}
+	}
+
+	function add_user_warning($id, $reason){
+		$warningsArray = get_user_warnings($id);
+
+		array_push($warningsArray, array(
+			"warnedby" => get_current_account()->id,
+			"time" => time(),
+			"message" => $reason,
+		));
+
+		$warningsArray = json_encode($warningsArray);
+
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$reason = mysqli_real_escape_string($conn, $reason);
+		mysqli_query($conn, "UPDATE accounts SET warnings='$warningsArray' WHERE id='$id'");
+		mysqli_close($conn);
+	}
+
+	function okay_warnings($id){
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		mysqli_query($conn, "UPDATE accounts SET warnings='[]' WHERE id='$id'");
+		mysqli_close($conn);
+	}
+
+	function unban_user($id){
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		mysqli_query($conn, "UPDATE accounts SET bannedtime='0',unbantime='0',bannedmsg='',bannedby='0' WHERE id='$id'");
+		mysqli_close($conn);
 	}
 
 	function issue_user_ban($id, $reason, $time){
@@ -212,5 +280,125 @@
 		}else{
 			return false;
 		}
+	}
+
+	function change_bio($text){
+		$conn = sql_connect();
+		$text = mysqli_real_escape_string($conn, $text);
+		$currAccount = get_current_account();
+		mysqli_query($conn, "UPDATE accounts SET bio='$text' WHERE id='$currAccount->id'");
+		mysqli_close($conn);
+	}
+
+	function get_user_iplist($id){
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$result = mysqli_query($conn, "SELECT iplist FROM accounts WHERE id='$id'");
+		mysqli_close($conn);
+		$iplistArray = json_decode(mysqli_fetch_object($result)->iplist);
+
+		if(gettype($iplistArray) == "NULL"){
+			return array();
+		}else{
+			return $iplistArray;
+		}
+	}
+
+	function does_list_contain_ip($list, $ip){
+		foreach($ip as $value){
+			foreach($list as $value2){
+				if($value2->ip == $value->ip){
+					return true;
+				}
+			}
+		}
+		return false;
+		/*foreach($list as $value){
+			if($value->ip == $ip){
+				return true;
+			}
+		}
+		return false;*/
+	}
+
+	function get_all_same_ip_accounts($id, $exempid=0){
+		$returnlist = array();
+		$iplist = get_user_iplist($id);
+		foreach(get_all_accounts() as $value){
+			if($value){
+				if($exempid > 0){
+					if($exempid == $value->id){
+						continue;
+					}
+				}
+				if(does_list_contain_ip(get_user_iplist($value->id), $iplist)){
+					$returnlist[] = $value;
+				}
+			}
+		}
+		return $returnlist;
+	}
+
+	function add_user_iplist($id){
+		$iplistArray = get_user_iplist($id);
+		$isAlreadyStored = false;
+
+		foreach($iplistArray as $key=>$value){
+			if($value->ip == $_SERVER['REMOTE_ADDR']){
+				$isAlreadyStored = true;
+				$value->lastseen = time();
+			}
+		}
+
+		if($isAlreadyStored == false){
+			array_push($iplistArray, array(
+				"ip" => $_SERVER['REMOTE_ADDR'],
+				"firstseen" => time(),
+				"lastseen" => time(),
+			));
+		}
+
+		$iplistArray = json_encode($iplistArray);
+
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		mysqli_query($conn, "UPDATE accounts SET iplist='$iplistArray' WHERE id='$id'");
+		mysqli_close($conn);
+	}
+
+	function change_user_displayname($id, $displayname){
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$displayname = mysqli_real_escape_string($conn, $displayname);
+		mysqli_query($conn, "UPDATE accounts SET displayname='$displayname' WHERE id='$id'");
+		mysqli_close($conn);
+	}
+
+	function change_user_password($id, $password){
+		$account = get_account_by_id($id);
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$password = mysqli_real_escape_string($conn, hash("sha256", "$password:$account->salt"));
+		mysqli_query($conn, "UPDATE accounts SET password='$password' WHERE id='$id'");
+		mysqli_close($conn);
+	}
+
+	function change_user_email($id, $email){
+		$account = get_account_by_id($id);
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$email = mysqli_real_escape_string($conn, $email);
+		mysqli_query($conn, "UPDATE accounts SET email='$email' WHERE id='$id'");
+		mysqli_close($conn);
+	}
+
+	function change_user_privacy($id, $show_email, $use_displayname){
+		$account = get_account_by_id($id);
+		$conn = sql_connect();
+		$id = mysqli_real_escape_string($conn, $id);
+		$show_email = mysqli_real_escape_string($conn, $show_email);
+		$use_displayname = mysqli_real_escape_string($conn, $use_displayname);
+		mysqli_query($conn, "UPDATE accounts SET privacy_show_email='$show_email',privacy_use_displayname='$use_displayname' WHERE id='$id'");
+		mysqli_close($conn);
 	}
 ?>

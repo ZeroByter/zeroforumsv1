@@ -1,22 +1,37 @@
 <?
 	$permissions = [];
 	$permissionsInfo = [];
+	// News posts panel permissions
+	$permissions[] = "newspnl_create_post";
+	$permissionsInfo["newspnl_create_post"] = array("name" => "News panel: Create/delete news posts", "desc" => "");
 	// Forums permissions
 	$permissions[] = "forums_createthread";
 	$permissionsInfo["forums_createthread"] = array("name" => "Forums: Create thread", "desc" => "Create a forum thread");
 	$permissions[] = "forums_createreply";
 	$permissionsInfo["forums_createreply"] = array("name" => "Forums: Create reply", "desc" => "Create a thread reply");
 	$permissions[] = "forums_replyonlocked";
+	$permissionsInfo["forums_replyonlocked"] = array("name" => "Forums: Reply on locked threads", "desc" => "Allow the user to reply to threads even if they are locked");
 	$permissions[] = "forums_threadlockunlock";
+	$permissionsInfo["forums_threadlockunlock"] = array("name" => "Forums: Lock/unlock threads", "desc" => "Allow the user to lock and unlock any thread");
 	$permissions[] = "forums_threadpinunpin";
+	$permissionsInfo["forums_threadpinunpin"] = array("name" => "Forums: Pin/unpin threads", "desc" => "Allow the user to pin and unpin any thread");
 	$permissions[] = "forums_threadhideunhide";
-	$permissions[] = "forums_viewhiddenthread";
-	$permissionsInfo["forums_viewhiddenthread"] = array("name" => "Forums: View hidden threads", "desc" => "View threads which are tagged as hidden from everyone else");
+	$permissionsInfo["forums_threadhideunhide"] = array("name" => "Forums: Hide/unhide threads", "desc" => "Allow the user to hide/unhide any thread, as well as see any currently hidden threads");
 	$permissions[] = "forums_editothers";
+	$permissionsInfo["forums_editothers"] = array("name" => "Forums: Edit other's posts", "desc" => "");
+	// Forums panel permissions
+	$permissions[] = "forumspnl_create_forum";
+	$permissionsInfo["forumspnl_create_forum"] = array("name" => "Forums panel: Create new forums", "desc" => "Allow the user to create new forums/subforums and delete current ones");
+	// Rules panel permissions
+	$permissions[] = "rulespnl_create_rule";
+	$permissionsInfo["rulespnl_create_rule"] = array("name" => "Rules panel: Create new rules/categories", "desc" => "Allows the user to create new rules and categories as well as deleting current ones");
 	// Admin panel permissions
-	$permissions[] = "adminpnl_news_tab";
+	$permissions[] = "adminpnl_newsposts_tab";
+	$permissionsInfo["adminpnl_newsposts_tab"] = array("name" => "Admin panel: view the news posts tab", "desc" => "");
 	$permissions[] = "adminpnl_forums_tab";
 	$permissionsInfo["adminpnl_forums_tab"] = array("name" => "Admin panel: view forums tab", "desc" => "View the forums tab in the admin panel");
+	$permissions[] = "adminpnl_rules_tab";
+	$permissionsInfo["adminpnl_rules_tab"] = array("name" => "Admin panel: view the rules tab", "desc" => "");
 	$permissions[] = "adminpnl_users_tab";
 	$permissionsInfo["adminpnl_users_tab"] = array("name" => "Admin panel: view users tab", "desc" => "View the users tab in the admin panel");
 	$permissions[] = "adminpnl_usertags_tab";
@@ -26,10 +41,31 @@
 	$permissions[] = "adminpnl_navigation_tab";
 	$permissionsInfo["adminpnl_navigation_tab"] = array("name" => "Admin panel: view navigation tab", "desc" => "View the navigation tab in the admin panel");
 	$permissions[] = "adminpnl_logs_tab";
+	$permissionsInfo["adminpnl_logs_tab"] = array("name" => "Admin panel: view  logs panel", "desc" => "");
 	$permissions[] = "adminpnl_ignore_usertag_limit";
-	$permissionsInfo["adminpnl_ignore_usertag_limit"] = array("name" => "Admin panel: ignore usertag listorder limit", "desc" => "View all usertags, regardless if they are higher sorted than user's");
+	$permissionsInfo["adminpnl_ignore_usertag_limit"] = array("name" => "Admin panel: ignore usertag listorder limit", "desc" => "View/interact/manipulate all usertags, regardless if they are higher sorted than user's");
+	// Logs permissions
 	$permissions[] = "logs_download_log";
 	$permissionsInfo["logs_download_log"] = array("name" => "Download logs files", "desc" => "Download logs into .txt files from the logs tab");
+	// Navigate bar permissions
+	$permissions[] = "navigatepnl_change_website_title";
+	$permissionsInfo["navigatepnl_change_website_title"] = array("name" => "Navigation panel: change the website title", "desc" => "");
+	$permissions[] = "navigatepnl_create_new_link";
+	$permissionsInfo["navigatepnl_create_new_link"] = array("name" => "Navigation panel: create a new link", "desc" => "");
+	// Usewrtags panel permissions
+	$permissions[] = "usertagpnl_create_usertag";
+	$permissionsInfo["usertagpnl_create_usertag"] = array("name" => "User tags panel: create/delete usertags", "desc" => "Allows the user to create new usertags AND delete current ones");
+	// Users panel permissions
+	$permissions[] = "userspnl_assign_usertag";
+	$permissionsInfo["userspnl_assign_usertag"] = array("name" => "Users panel: assign usertag", "desc" => "");
+	$permissions[] = "userspnl_warn_user";
+	$permissionsInfo["userspnl_warn_user"] = array("name" => "Users panel: warn users", "desc" => "");
+	$permissions[] = "userspnl_ban_user";
+	$permissionsInfo["userspnl_ban_user"] = array("name" => "Users panel: issue bans to users", "desc" => "");
+	$permissions[] = "userspnl_unban_user";
+	$permissionsInfo["userspnl_unban_user"] = array("name" => "Users panel: remove current bans from banned users", "desc" => "");
+	$permissions[] = "userspnl_remove_warning";
+	$permissionsInfo["userspnl_remove_warning"] = array("name" => "Users panel: remove current warnings from warned users", "desc" => "");
 
 	function get_permissions(){
 		return $permissions;
@@ -95,9 +131,9 @@
 		return $array;
 	}
 
-	function get_all_staff_usertags(){
+	function get_all_staff_usertags($sort = "ASC"){
 		$conn = sql_connect();
-		$result = mysqli_query($conn, "SELECT * FROM usertags WHERE isstaff = 1 ORDER BY listorder ASC");
+		$result = mysqli_query($conn, "SELECT * FROM usertags WHERE isstaff = 1 ORDER BY listorder $sort");
 		mysqli_close($conn);
 
 		$array = array();
@@ -192,12 +228,15 @@
 		return $permissionstring;
 	}
 
-	function tag_has_permission($tag, $perm){ //can a usertag with tihs usertag do something based on the tags allowed permissions?
+	function tag_has_permission($tag, $perm){ //can a user with tihs usertag do something based on the tags allowed permissions?
 		if($tag == 0){
 			return false;
 		}
 		$tag = get_usertag_by_id($tag);
 		$tag_name = $tag->name;
+		if(get_current_account()->unbantime > 0){
+			return false;
+		}
 
 		$permissions_array = array();
 
@@ -254,9 +293,9 @@
 			if($value == "registered" && isset($currentAccount->id)){
 				return true;
 			}
-			if($value == "unregistered" && !isset($currentAccount->id)){
-				return true;
-			}
+			//if($value == "unregistered" && !isset($currentAccount->id)){
+			//	return true;
+			//} //disabled due to compability purposes
 			if(is_numeric($value) && isset($currentAccount->id)){
 				if(intval($value) == $currentAccount->tag){
 					return true;

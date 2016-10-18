@@ -3,6 +3,7 @@
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
     include("../../phpscripts/navigatebar.php");
+    include("../../phpscripts/essentials.php");
 
     if(!tag_has_permission(get_current_usertag(), "adminpnl_navigation_tab")){
         echo "<script>window.close()</script>";
@@ -69,6 +70,15 @@
     <span id="fillin_navigatebar"></span>
 </div>
 
+<?
+    if(!tag_has_permission(get_current_usertag(), "navigatepnl_change_website_title")){
+        removeHTMLElement("#edit_navbar_title");
+    }
+    if(!tag_has_permission(get_current_usertag(), "navigatepnl_create_new_link")){
+        removeHTMLElement("#create_new_link");
+    }
+?>
+
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
@@ -76,8 +86,10 @@
 
     $("#create_new_link").click(function(){
         $.get("fillin/getcreatenavigatelink", function(html){
+            $(".navigation_link_list_div").removeClass("row_active")
             $("#fillin_navigatebar").html(html)
         })
+        $(this).addClass("row_active")
     })
     $("#edit_navbar_title").click(function(){
         $.get("fillin/getchangenavbartitle", function(html){

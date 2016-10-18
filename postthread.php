@@ -10,6 +10,7 @@
 	include("phpscripts/forums.php");
 	include("phpscripts/usertags.php");
 	include("phpscripts/essentials.php");
+	include("phpscripts/checkwarnings.php");
 
 	if(isset($_GET["parent"])){
 		if(get_forum_by_id($_GET["parent"])->type != "subforum"){
@@ -38,19 +39,20 @@
 				</ol>
 				<div class="well">
 					<h4>New thread:</h4>
-					<div class="input-group">
-						<span class="input-group-addon">Subject</span>
-						<input type="text" class="form-control" id="subject_in">
-					</div><br>
-					<div class="input-group">
-						<span class="input-group-addon">Body</span>
-						<div class="form-control" id="fillin_zeroeditor">
-						</div>
-					</div><br>
-					<center>
-						<button type="button" class="btn btn-success" id="post_thread">Post thread</button>
-						<button type="button" class="btn btn-default" id="cancel">Cancel</button>
-					</center>
+					<form id="submit_form" onsubmit="void(0)">
+						<div class="input-group">
+							<span class="input-group-addon">Subject</span>
+							<input required type="text" class="form-control" id="subject_in">
+						</div><br>
+						<div class="input-group">
+							<span class="input-group-addon">Body</span>
+							<div class="form-control" id="fillin_zeroeditor"></div>
+						</div><br>
+						<center>
+							<button type="submit" class="btn btn-success" id="post_thread">Post thread</button>
+							<button type="button" class="btn btn-default" id="cancel">Cancel</button>
+						</center>
+					</form>
 				</div>
 			</td>
 		</tr>

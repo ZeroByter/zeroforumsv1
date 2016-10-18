@@ -26,20 +26,18 @@
         $warnings = get_user_warnings($currentAccount->id);
         if(count($warnings) > 0 || $currentAccount->bannedby > 0){ // or if banned
             if($currentAccount->bannedby > 0){ // if is banned
-                $bannedOn = $currentAccount->bannedtime;
+                $bannedOn = timestamp_to_date($currentAccount->bannedtime);
                 $bannedBy = get_account_display_name($currentAccount->bannedby);
                 $bannedReason = $currentAccount->bannedmsg;
 
-                $nowtime = new DateTime();
-                $unbantime = new DateTime();
-                date_timestamp_set($unbantime, $currentAccount->unbantime);
-                $interval = $unbantime->diff($nowtime);
-                $bantimeleft = $interval->format("%a days, %h hours, %i minutes, %s seconds");
+                confirm_ban($currentAccount->id);
+
+                $unbanTime = timestamp_to_date($currentAccount->unbantime, true);
 
                 $banHtml = $banHtml . "
                     You have been banned: $bannedReason<br>
                     Ban issued on $bannedOn by $bannedBy<br>
-                    Ban time remaining: $bantimeleft<br>
+                    Ban expires on: $unbanTime<br>
                     <button type='button' class='btn btn-primary' id='okay_ban'>Okay</button><br><br>
                 "; //add banned stuff here
             }

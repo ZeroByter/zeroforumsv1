@@ -96,8 +96,15 @@
             }
         ?>
 
-        <h4>Forums:</h4> <?echoPermissions("forums");?>
         <h4>Admin panel:</h4> <?echoPermissions("adminpnl");?>
+        <h4>Forums:</h4> <?echoPermissions("forums_");?>
+        <h4>News panel:</h4> <?echoPermissions("newspnl_");?>
+        <h4>Forums panel:</h4> <?echoPermissions("forumspnl");?>
+        <h4>Rules panel:</h4> <?echoPermissions("rulespnl");?>
+        <h4>Logs panel:</h4> <?echoPermissions("logs");?>
+        <h4>Navigate bar:</h4> <?echoPermissions("navigatepnl");?>
+        <h4>Usertags:</h4> <?echoPermissions("usertagpnl");?>
+        <h4>Users:</h4> <?echoPermissions("userspnl");?>
     </center>
 </div>
 

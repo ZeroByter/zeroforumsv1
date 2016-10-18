@@ -7,11 +7,12 @@ $.get("/phpscripts/fillin/latestthreads", {url: window.location.pathname}, funct
 $.get("/phpscripts/fillin/zeroeditor", function(html){
     $("#fillin_zeroeditor").html(html)
     $("#fillin_zeroeditor").css("height", "inherit")
+    $("#textarea").attr("required", "")
 })
 
-$("#post_thread").click(function(){
+$("#submit_form").submit(function(){
     $.post("/phpscripts/requests/newthread", {parent: $("#get_parent_id").data("id"), subject: $("#subject_in").val(), body: getEditorString()}, function(html){
-        console.log(html)
+        window.location = "/subforum?id=" + $("#get_parent_id").data("id")
     })
 })
 $("#cancel").click(function(){

@@ -12,16 +12,20 @@
 	include("phpscripts/forums.php");
 	include("phpscripts/usertags.php");
 	include("phpscripts/essentials.php");
+	include("phpscripts/checkwarnings.php");
 
 	if(!$_GET["id"]){
 		echo "<script>window.location = '/forums'</script>";
 	}
 
 	$thread = get_forum_by_id($_GET["id"]);
-	if($thread->hidden && !tag_has_permission(get_current_usertag(), "forums_viewhiddenthread")){
+	if($thread->hidden && !tag_has_permission(get_current_usertag(), "forums_threadhideunhide")){
 		echo "<script>window.location = '/forums'</script>";
 	}
 	$parent = get_forum_by_id($thread->parent);
+	if(!can_tag_do(get_current_usertag_or_default(), $parent->canview)){
+		echo "<script>window.location = '/forums'</script>";
+	}
 ?>
 
 <span id="getid" data-id="<?echo $_GET["id"];?>"></span>
@@ -36,7 +40,7 @@
 
 					<li><a href="/subforum?id=<?echo $parent->id;?>"><?echo $parent->name;?></a></li>
 
-					<li class="active"><?echo $thread->name;?></li>
+					<li class="active"><?echo filterXSS($thread->name);?></li>
 				</ol>
                 <div id="thread_actions">
 					<?
@@ -49,19 +53,26 @@
 							echo "<span class='label label-info'>This thread is pinned</span><br><br>";
 						}
 						if($thread->hidden){
-							echo "<span class='label label-info'>This thread is hidden, but you possess the 'forums_viewhiddenthread' permission!</span><br><br>";
+							echo "<span class='label label-info'>This thread is hidden, but you possess the 'forums_threadhideunhide' permission!</span><br><br>";
+						}
+						$lastedited_string = "";
+						if($thread->lastedited > $thread->firstposted){
+							$editorDisplayName = get_account_display_name($thread->lastediteduser);
+							$lastedited_string = " | Last edited on " . timestamp_to_date($thread->lastedited, true) . " by $editorDisplayName";
 						}
 					?>
                     <button type="button" class="btn btn-success" id="new_reply_btn">Post reply</button>
                     <button type="button" class="btn btn-primary" id="edit_thread_btn">Edit thread</button>
                     <button type="button" class="btn btn-primary" id="lock_thread_btn">Lock thread</button>
                     <button type="button" class="btn btn-primary" id="unlock_thread_btn">Unlock thread</button>
+                    <button type="button" class="btn btn-primary" id="pin_thread_btn">Pin thread</button>
+                    <button type="button" class="btn btn-primary" id="unpin_thread_btn">Unpin thread</button>
                     <button type="button" class="btn btn-danger" id="delete_thread_btn">Delete thread</button>
                 </div>
 				<div class="panel panel-default" style="border-color:#c3c6ff;">
 					<div class="panel-heading" style="overflow:auto;background:#dbdcec;">
 						<div style="float:left;">
-							<?echo $thread->name;?>
+							<?echo filterXSS($thread->name);?>
 						</div>
 						<div id="thread_replies" style="float:right;">
 							<?echo count(get_all_replies($thread->id)) - 1;?> replies
@@ -69,11 +80,12 @@
 					</div>
 					<div class="panel-body">
 						<div id="thread_poster_div">
-							<a href="#"><?echo get_account_display_name($thread->poster);?></a><br>
+							<a href="profile?id=<?echo $thread->poster;?>"><?echo get_account_display_name($thread->poster);?></a><br>
 							<?echo get_account_by_id($thread->poster)->posts;?> posts<br>
 						</div>
 						<div id="thread_body_div" style="float:left;">
-							<?echo $thread->posttext;?>
+							<?echo filterXSS($thread->posttext);?><br>
+							<span class='thread_posted_date'>Posted <?echo timestamp_to_date($thread->firstposted, true) . $lastedited_string?></span>
 						</div>
 					</div>
 				</div>
@@ -106,6 +118,16 @@
 			hideHTMLElement("#lock_thread_btn");
 		}else{
 			hideHTMLElement("#unlock_thread_btn");
+		}
+	}
+	if(!tag_has_permission(get_current_usertag(), "forums_threadpinunpin")){
+		removeHTMLElement("#pin_thread_btn");
+		removeHTMLElement("#unpin_thread_btn");
+	}else{
+		if($thread->pinned){
+			hideHTMLElement("#pin_thread_btn");
+		}else{
+			hideHTMLElement("#unpin_thread_btn");
 		}
 	}
 	if($thread->poster != get_current_account()->id){

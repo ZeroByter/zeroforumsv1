@@ -3,6 +3,7 @@
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
     include("../../phpscripts/navigatebar.php");
+    include("../../phpscripts/essentials.php");
 
     if(!tag_has_permission(get_current_usertag(), "adminpnl_usertags_tab")){
         echo "<script>window.close()</script>";
@@ -67,6 +68,12 @@
 <div id="main_usertag_div">
     <span id="fillin_usertag"></span>
 </div>
+
+<?
+    if(!tag_has_permission(get_current_usertag(), "usertagpnl_create_usertag")){
+        removeHTMLElement("#create_new_link");
+    }
+?>
 
 <script>
     $(document).ready(function(){

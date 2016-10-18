@@ -1,7 +1,11 @@
 <?
 	include("../getsql.php");
+	include("../usertags.php");
 	include("../accounts.php");
 
+	@$account = get_current_account();
+	@$displayName = get_account_display_name($account->id);
+	@$usertag = get_usertag_by_id(get_current_usertag());
 	$callerurl = "/";
 	if(isset($_GET["callerurl"])){
 		$callerurl = $_GET["callerurl"];
@@ -21,7 +25,9 @@
 		</div>
 		<div id="profile_view_div">
 			<center>
-				<button type="button" class="btn btn-default">View profile</button>
+				<div style="margin-bottom:10px;"><?echo "$usertag->name : $displayName";?></div>
+				<a href="/profile?id=<?echo $account->id?>"><button type="button" class="btn btn-default">View profile</button></a>
+				<a href="/accountsettings"><button type="button" class="btn btn-default">Settings</button></a><br><br>
 				<a href="/phpscripts/requests/logout?next=<?echo $callerurl;?>"><button type="button" class="btn btn-default">Logout</button></a>
 			</center>
 		</div>

@@ -6,6 +6,9 @@
 
     foreach(get_all_forums() as $value){
         if($value){
+            if(!can_tag_do(get_current_usertag_or_default(), $value->canview)){
+                continue;
+            }
             $subforumsstr = "";
             foreach(get_all_subforums($value->id) as $subvalue){
                 if($subvalue){
@@ -15,7 +18,7 @@
                         $lastThreadOP = get_account_by_id($lastActiveThread->poster);
                         $lastThreadOPName = get_account_display_name($lastThreadOP->id);
                     }
-                    $lastThreadHTML = ($lastActiveThread) ? "<a href='thread?id=$lastActiveThread->id'>$lastActiveThread->name<br></a><a href='#'>$lastThreadOPName</a>" : "No activity";
+                    $lastThreadHTML = ($lastActiveThread) ? "<a href='thread?id=$lastActiveThread->id'>$lastActiveThread->name<br></a><a href='profile?id=$lastThreadOP->id'>$lastThreadOPName</a>" : "No activity";
                     $hiddenText = ($lastActiveThread && $lastActiveThread->hidden) ? "<span class='label label-info'><span class='glyphicon glyphicon-eye-close'></span></span>" : "";
                     $lockedText = ($lastActiveThread && $lastActiveThread->locked) ? "<span class='label label-info'><span class='glyphicon glyphicon-lock'></span></span>" : "";
                     $pinnedText = ($lastActiveThread && $lastActiveThread->pinned) ? "<span class='label label-info'><span class='glyphicon glyphicon-pushpin'></span></span>" : "";

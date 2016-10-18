@@ -36,7 +36,9 @@
 
 		<div class="collapse navbar-collapse" id="main_navbar_collapse">
 			<ul class="nav navbar-nav">
-                <div class="btn-group navbar-btn">
+                <button type="button" disabled class="btn btn-default navbar-btn users_actions_btn" id="viewwarnings">View warnings</button>
+                <button type="button" disabled class="btn btn-default navbar-btn users_actions_btn" id="viewiphistory">View IP history</button>
+                <div class="btn-group navbar-btn" id="assign_usertag">
                     <button type="button" disabled class="btn btn-default dropdown-toggle users_actions_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Assign new rank <span class="caret"></span>
                     </button>
@@ -52,7 +54,7 @@
                 </div>
                 <button type="button" disabled class="btn btn-warning navbar-btn users_actions_btn" id="warnuser">Warn user</button>
                 <button type="button" disabled class="btn btn-danger navbar-btn users_actions_btn test" id="banuser">Ban user</button>
-                <button type="button" disabled class="btn btn-default navbar-btn users_actions_btn" id="unbanuser">Unban user</button>
+                <button type="button" disabled class="btn btn-default navbar-btn users_actions_btn" id="unbanuser" style="display:none;">Unban user</button>
 			</ul>
 		</div>
 	</div>
@@ -77,13 +79,14 @@
                     $lastactive = get_human_time($value->lastactive);
                     $isbanned = ($value->bannedby != 0) ? "Yes" : "No";
                     $isbannedraw = ($value->bannedby != 0) ? "true" : "false";
+                    $iswarned = (count(get_user_warnings($value->id)) > 0) ? "Yes ".count(get_user_warnings($value->id))." times" : "No";
                     echo "
                         <tr class='users_list_row' data-id='$value->id' data-isbanned='$isbannedraw'>
                             <td>$isbanned</td>
-                            <td>n/a</td>
+                            <td>$iswarned</td>
                             <td>$lastjoined ago</td>
                             <td>$lastactive ago</td>
-                            <td>$value->username</td>
+                            <td>".filterXSS($value->username)."</td>
                             <td>$value->displayname</td>
                             <td>$value->posts</td>
                         </tr>
@@ -93,6 +96,21 @@
         ?>
     </tbody>
 </table>
+
+<?
+    if(!tag_has_permission(get_current_usertag(), "userspnl_assign_usertag")){
+        removeHTMLElement("#assign_usertag");
+    }
+    if(!tag_has_permission(get_current_usertag(), "userspnl_warn_user")){
+        removeHTMLElement("#warnuser");
+    }
+    if(!tag_has_permission(get_current_usertag(), "userspnl_ban_user")){
+        removeHTMLElement("#banuser");
+    }
+    if(!tag_has_permission(get_current_usertag(), "userspnl_unban_user")){
+        removeHTMLElement("#unbanuser");
+    }
+?>
 
 <div class="panel panel-primary" id="ban_prompt" style="display: none;">
     <div class="panel-heading">Ban prompt<a href="javascript:void(0)" id="ban_prompt_close">Close</a></div>
@@ -130,11 +148,11 @@
         selectedUser = this
 
         if($(this).data("isbanned") == true){
-            $("#unbanuser").css("display", "block-inline")
+            $("#unbanuser").css("display", "inline-block")
             $("#banuser").css("display", "none")
         }else{
             $("#unbanuser").css("display", "none")
-            $("#banuser").css("display", "block-inline")
+            $("#banuser").css("display", "inline-block")
         }
 
         $(".users_actions_btn").each(function(i, v){
@@ -155,13 +173,19 @@
         var reason = prompt("Please state your reason for warning!")
         if(reason){
             $.post("/admin/requests/warnuser", {id: $(selectedUser).data("id"), reason: reason}, function(html){
-
+                redo_users_panel()
             })
         }
     })
 
     $("#banuser").click(function(){
         $("#ban_prompt").css("display", "block")
+    })
+
+    $("#unbanuser").click(function(){
+        $.post("/admin/requests/unbanuser", {id: $(selectedUser).data("id")}, function(html){
+            redo_users_panel()
+        })
     })
 
     $("#ban_prompt_close, #ban_prompt_cancel").click(function(){
@@ -211,8 +235,33 @@
 
     $("#ban_prompt_issue_ban").click(function(){
         $.post("/admin/requests/banuser", {id: $(selectedUser).data("id"), reason: $("#ban_prompt_reason_in").val(), time: get_real_time()}, function(html){
-            console.log(html)
+            redo_users_panel()
             $("#ban_prompt").css("display", "none")
         })
+    })
+
+    $("#viewiphistory").click(function(){
+        var w = 600
+		var h = 400
+
+		var width = screen.width
+		var height = screen.height
+		var left = ((width / 2) - (w / 2))
+		var top = ((height / 2) - (h / 2))
+
+		var newWindow = window.open("/admin/panels/viewiphistory?id=" + $(selectedUser).data("id"), "_blank", "width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
+		newWindow.focus()
+    })
+    $("#viewwarnings").click(function(){
+        var w = 600
+		var h = 400
+
+		var width = screen.width
+		var height = screen.height
+		var left = ((width / 2) - (w / 2))
+		var top = ((height / 2) - (h / 2))
+
+		var newWindow = window.open("/admin/panels/viewwarnings?id=" + $(selectedUser).data("id"), "_blank", "width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
+		newWindow.focus()
     })
 </script>

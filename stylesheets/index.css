@@ -1,0 +1,16 @@
+#body_center_space{
+    padding: 0px;
+}
+
+#body_news_fixer_div{
+    margin-top: -20px;
+}
+
+.news_post_main_div{
+    padding: 20px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.news_post_body_div{
+    margin-top: 20px;
+}

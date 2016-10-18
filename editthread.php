@@ -11,13 +11,14 @@
 	include("phpscripts/forums.php");
 	include("phpscripts/usertags.php");
 	include("phpscripts/essentials.php");
+	include("phpscripts/checkwarnings.php");
 
 	if(!$_GET["id"]){
 		echo "<script>window.location = '/forums'</script>";
 	}
 
 	$thread = get_forum_by_id($_GET["id"]);
-	if($thread->hidden && !tag_has_permission(get_current_usertag(), "forums_viewhiddenthread")){
+	if($thread->hidden && !tag_has_permission(get_current_usertag(), "forums_threadhideunhide")){
 		echo "<script>window.location = '/forums'</script>";
 	}
 	$parent = get_forum_by_id($thread->parent);

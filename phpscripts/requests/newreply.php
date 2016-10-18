@@ -13,12 +13,14 @@
         if($thread->id){
             $parent = get_forum_by_id($thread->parent);
             $currenttag = get_current_usertag();
+            $account = get_current_account();
             if(can_tag_do($currenttag, $parent->canpost)){
                 if(tag_has_permission($currenttag, "forums_createreply")){
                     forums_create_reply($thread->id, $text);
-                    create_log(get_current_account()->username . " posted a reply on $thread->name -> $parent->name with text '$text'");
+                    create_log($account->username . " posted a reply on '$thread->name' -> '$parent->name' with text '$text'");
                     forums_update_lastactive($thread->id);
                     forums_update_lastactive($parent->id);
+                    add_user_posts($account->id);
                     echo "success";
                 }else{
                     echo "error:You don't have permission to post a reply!";

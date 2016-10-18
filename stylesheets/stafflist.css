@@ -1,0 +1,18 @@
+#staff_main_div{
+    text-align: center;
+    margin:10px auto;
+    width: 400px;
+}
+
+#staff_list_div{
+    padding: 0px;
+}
+
+.staff_account_div{
+    padding: 10px;
+}
+
+.staff_account_div:hover{
+    background: #dddddd;
+    cursor: pointer;
+}

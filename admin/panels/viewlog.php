@@ -4,6 +4,7 @@
     include("../../phpscripts/usertags.php");
     include("../../phpscripts/navigatebar.php");
     include("../../phpscripts/logs.php");
+    include("../../phpscripts/essentials.php");
 
     if(!tag_has_permission(get_current_usertag(), "adminpnl_logs_tab")){
         echo "<script>window.close()</script>";
@@ -36,7 +37,7 @@
     <?
         foreach(get_logs_by_date($_GET["date"]) as $value){
             if($value){
-                echo "<div><span class='label label-primary log_time'>$value->time:</span><span class='label label-default log_text'>$value->text</span></div>";
+                echo "<div><span class='label label-primary log_time'>$value->time:</span><span class='label label-default log_text'>".filterXSS($value->text)."</span></div>";
             }
         }
     ?>

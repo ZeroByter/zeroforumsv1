@@ -3,8 +3,11 @@
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
     include("../../phpscripts/navigatebar.php");
+    include("../../phpscripts/essentials.php");
 
     $navlink = get_navlink_by_id($_GET["id"]);
+
+    $canedit = (!$navlink->canedit) ? "disabled" : "";
 ?>
 
 <style>
@@ -33,24 +36,24 @@
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-addon">Text</span>
-            <input type="text" class="form-control" id="navlink_text_in" value="<?echo $navlink->text?>">
+            <input type="text" class="form-control" id="navlink_text_in" value="<?echo $navlink->text?>" <?echo $canedit?>>
         </div>
         <div class="input-group">
             <span class="input-group-addon">URL Link</span>
-            <input type="text" class="form-control" id="navlink_link_in" value="<?echo $navlink->link?>">
+            <input type="text" class="form-control" id="navlink_link_in" value="<?echo $navlink->link?>" <?echo $canedit?>>
         </div>
         <div class="input-group">
             <span class="input-group-addon" data-toggle='tooltip' data-placement='bottom' title='In what order should this link be viewed?'>The viewing order</span>
-            <input type="number" class="form-control" id="navlink_listorder_in" value="<?echo $navlink->listorder?>">
+            <input type="number" class="form-control" id="navlink_listorder_in" value="<?echo $navlink->listorder?>" <?echo $canedit?>>
         </div>
-        <button type="button" class="btn btn-danger" style="width:100%;" id="delete_link">Delete</button>
+        <button type="button" class="btn btn-danger" style="width:100%;" id="delete_link" <?echo $canedit?>>Delete</button>
         <div class="link_canview_div">
-            Who can view?<br><br>
+            Who can view?<br>
             <button class="toggle_btn" id="canview_all" data-name="all" data-state="false">All</button>
             <button class="toggle_btn" id="canview_registered" data-name="registered" data-state="false">Registered</button>
-            <button class="toggle_btn" id="canview_non-registered" data-name="non-registered" data-state="false">Non-registered</button>
+            
             <button class="toggle_btn" id="canview_staff" data-name="staff" data-state="false">Staff</button>
-            <br>Usertags:<br>
+            <br><br>Usertags:<br>
             <?
                 foreach(get_all_usertags() as $value){
                     if($value){
@@ -62,7 +65,13 @@
     </div>
 </div>
 
-<script>
+<?
+    if(!tag_has_permission(get_current_usertag(), "navigatepnl_create_new_link")){
+        removeHTMLElement("#delete_link");
+    }
+?>
+
+<script id="navlink_script">
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     })
@@ -91,7 +100,6 @@
     $(".toggle_btn").click(function(){
         var state = $(this).attr("data-state")
         var name = $(this).data("name")
-        var linkid = $($(this).parents()[0]).attr("data-id")
 
         if(state == "true"){ //turn off
             $(this).attr("data-state", "false")
@@ -125,3 +133,11 @@
         })
     })
 </script>
+
+<?
+    if(!$navlink->canedit){
+        removeHTMLElement("#navlink_script");
+        removeHTMLElement("#delete_link");
+        removeHTMLElement(".link_canview_div");
+    }
+?>

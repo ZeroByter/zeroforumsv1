@@ -1,10 +1,18 @@
+body{
+	background-image: url("/bgimages/background1.png");
+	background-repeat: no-repeat;
+    background-attachment: fixed;
+	background-size: cover;
+}
+
 #main_body{
-	width: 74%;
-	height: 100%;
+	width: 70%;
+	height: calc(100% - 40px);
 	margin: 0 auto;
-	padding-top: 40px;
+	margin-top: 40px;
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
+	background: white;
 }
 
 #main_body_table{

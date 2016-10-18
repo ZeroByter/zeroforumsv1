@@ -3,6 +3,7 @@
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
     include("../../phpscripts/navigatebar.php");
+    include("../../phpscripts/essentials.php");
 
     $usertag = get_usertag_by_id($_GET["id"]);
 ?>
@@ -43,6 +44,12 @@
     </div>
 </div>
 
+<?
+    if(!tag_has_permission(get_current_usertag(), "usertagpnl_create_usertag")){
+        removeHTMLElement("#delete_usertag");
+    }
+?>
+
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
@@ -55,7 +62,6 @@
 
     function updateusertag(){
         $.post("/admin/requests/updateusertag", {id: usertagid, name: name, listorder: listorder, isstaff: isstaff}, function(html){
-            console.log(html)
             redo_usertaglist($(selectedUsertag).data("id"))
             redo_panel()
         })
@@ -70,13 +76,14 @@
         updateusertag()
     })
     $("#usertag_isstaff_in").click(function(){
-        istaff = $(this).prop("checked")
+        isstaff = $(this).prop("checked")
         updateusertag()
     })
     $("#delete_usertag").click(function(){
         $.post("/admin/requests/deleteusertag", {id: usertagid}, function(){
             $("#fillin_usertag").html("")
             redo_usertaglist()
+            redo_panel()
         })
     })
     $("#make_default_usertag").click(function(){

@@ -1,6 +1,6 @@
 <?
 	function sql_connect(){
-		$conn = mysqli_connect("localhost", "main_use", "xcZQGUx2DM9vQRjT", "zeroforums");
+		$conn = mysqli_connect("your ip", "your user", "your password", "your database");
 		return $conn;
 	}
 ?>

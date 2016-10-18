@@ -37,6 +37,14 @@
         }
     }
 
+    function timestamp_to_date($timestamp, $withtime=false){
+        if($withtime){
+            return getdate($timestamp)["mday"] . "/" . getdate($timestamp)["mon"] . "/" . getdate($timestamp)["year"] . " " . getdate($timestamp)["hours"] . ":" . getdate($timestamp)["minutes"] . ":" . getdate($timestamp)["seconds"];
+        }else{
+            return getdate($timestamp)["mday"] . "/" . getdate($timestamp)["mon"] . "/" . getdate($timestamp)["year"];
+        }
+    }
+
     function removeHTMLElement($identifier){
         echo "<script id='remove_script'>
             $('$identifier').remove()
@@ -62,12 +70,7 @@
     }
 
     function filterXSS($string){
-        $string = str_replace("&", "&amp;", $string);
-        $string = str_replace("<", "&lt;", $string);
-        $string = str_replace(">", "&gt;", $string);
-        $string = str_replace('"', "&quot;", $string);
-        $string = str_replace("'", "&#x27;", $string);
-        $string = str_replace("/", "&#x2F;", $string);
+        $string = htmlspecialchars($string);
         $string = str_replace("javascript:", "javascript : ", $string);
         return $string;
     }

@@ -22,6 +22,9 @@ $("#italic").click(function(){ //when user clicks on italic
 $("#underline").click(function(){ //when user clicks on italic
 	addBBTag("u")
 })
+$("#strikethrough").click(function(){ //when user clicks on italic
+	addBBTag("s")
+})
 $("#alignleft").click(function(){
     addBBTag("align", "=left")
 })
@@ -54,17 +57,8 @@ $("#youtube").click(function(){
 	}
 })
 
-function filter_bbcode(text){ //prevent xss and fix bbcode tags
-	if(!text.endsWith("\n")){
-		text = text + "\n"
-	}
-
+function remove_bbcode(text){ //prevent xss and fix bbcode tags
 	format_search =  [
-		/&/ig,
-		/</ig,
-		/>/ig,
-		/"/ig,
-		/'/ig, //security checks lines, do not input anything above this!
 		/\[b\]([\s\S]*?)\[\/b\]/ig,
 		/\[i\]([\s\S]*?)\[\/i\]/ig,
 		/\[u\]([\s\S]*?)\[\/u\]/ig,
@@ -80,11 +74,47 @@ function filter_bbcode(text){ //prevent xss and fix bbcode tags
 		/\[youtube\](.*?)\[\/youtube\]/ig,
 	]
 	format_replace = [
-		"&amp;",
-		"&lt;",
-		"&gt;",
-		"&quot;",
-		"&#x27;", //security checks lines, do not input anything above this!
+		'$1',
+		'$1',
+		'$1',
+		'$1',
+		'$1',
+		'$1',
+		'$1',
+        '$1',
+        '$1',
+        '$1',
+        '$1',
+        '$2',
+		'$1',
+	]
+	for (var i =0;i<format_search.length;i++){
+		text = text.replace(format_search[i], format_replace[i]);
+	}
+	return text
+}
+
+function filter_bbcode(text){ //prevent xss and fix bbcode tags
+	if(!text.endsWith("\n")){
+		text = text + "\n"
+	}
+
+	format_search =  [
+		/\[b\]([\s\S]*?)\[\/b\]/ig,
+		/\[i\]([\s\S]*?)\[\/i\]/ig,
+		/\[u\]([\s\S]*?)\[\/u\]/ig,
+		/\[s\]([\s\S]*?)\[\/s\]/ig,
+        /\[align=left\]([\s\S]*?)\[\/align\]/ig,
+		/\[center\]([\s\S]*?)\[\/center\]/ig,
+        /\[align=center\]([\s\S]*?)\[\/align\]/ig,
+        /\[align=right\]([\s\S]*?)\[\/align\]/ig,
+        /\[list=points\]([\s\S]*?)\[\/list\]/ig,
+        /\[list=numbers\]([\s\S]*?)\[\/list\]/ig,
+        /\[\*\](.*?)(\n|\r\n?)/ig,
+        /\[link href=(.*?)\](.*?)\[\/link\]/ig,
+		/\[youtube\](.*?)\[\/youtube\]/ig,
+	]
+	format_replace = [
 		'<strong>$1</strong>',
 		'<em>$1</em>',
 		'<span style="text-decoration:underline;">$1</span>',
@@ -99,11 +129,14 @@ function filter_bbcode(text){ //prevent xss and fix bbcode tags
         '<a href=$1>$2</a>',
 		'<iframe width="420" height="315" src="https://www.youtube.com/embed/$1"></iframe>',
 	]
-	for (var i =0;i<format_search.length;i++) {
-		console.log(text)
+	for (var i =0;i<format_search.length;i++){
 		text = text.replace(format_search[i], format_replace[i]);
 	}
 	text = text.replace(/\n/g, "<br>")
+	if(text.startsWith("<br>")){
+		text = text.replace("<br>", "")
+	}
+	text = text.replace(/<br>$/g, "")
 	return text
 }
 
@@ -125,6 +158,7 @@ $("#textarea").bind("keyup focus", function(){ //when textarea gets a keyup or f
 })
 
 function setEditorString(string){
+	string = string.replace(/\\n/ig, "<br>")
 	$("#textarea").val(string)
 	$("#textarea").focus()
 }

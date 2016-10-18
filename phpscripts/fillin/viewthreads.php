@@ -2,6 +2,7 @@
     include("../getsql.php");
     include("../usertags.php");
     include("../accounts.php");
+    include("../essentials.php");
     include("../forums.php");
 
     $allThreads = get_all_threads($_GET["id"]);
@@ -11,6 +12,10 @@
                 continue;
             }
             if($value->pinned){
+                continue;
+            }
+            $parent = get_forum_by_id($value->parent);
+            if(!can_tag_do(get_current_usertag_or_default(), $parent->canview)){
                 continue;
             }
             $posterName = get_account_display_name($value->poster);
@@ -23,9 +28,9 @@
                     <table>
                         <tr>
                             <td class='exempt_base'>
-                                <div class='thread_name'>$pinnedText $lockedText $value->name</div>
+                                <div class='thread_name'>$pinnedText $lockedText ".filterXSS($value->name)."</div>
                                 <div class='thread_stats_secondary'>Replies: $replies<br>Views: $views</div>
-                                <div class='thread_stats'>Posted by: $posterName</div>
+                                <div class='thread_stats'>Posted by: <a href='profile?id=$value->poster'>$posterName</a></div>
                             </td>
                         </tr>
                     </table>

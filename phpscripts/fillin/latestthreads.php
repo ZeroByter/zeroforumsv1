@@ -4,6 +4,7 @@
         <?
             include("../getsql.php");
             include("../accounts.php");
+            include("../usertags.php");
             include("../forums.php");
             include("../essentials.php");
 
@@ -11,6 +12,10 @@
             if(count($lastestThreads) != 1){
                 foreach($lastestThreads as $value){
                     if($value){
+                        $parent = get_forum_by_id($value->parent);
+                        if(!can_tag_do(get_current_usertag_or_default(), $parent->canview)){
+                            continue;
+                        }
                         $hiddenText = ($value->hidden) ? "<span class='label label-info'><span class='glyphicon glyphicon-eye-close'></span></span>" : "";
                         $lockedText = ($value->locked) ? "<span class='label label-info'><span class='glyphicon glyphicon-lock'></span></span>" : "";
                         $pinnedText = ($value->pinned) ? "<span class='label label-info'><span class='glyphicon glyphicon-pushpin'></span></span>" : "";
