@@ -1,6 +1,6 @@
 # zeroforums website system version 1.0 #
 
-Current version: V1.1
+Current version: V1.1 (BETA version, not complete!)
 
 ### More about zeroforums V1.0 ###
 * zeroforums (including version 1 and any other future versions) is a completely free, open source, website and forums system to be used for gaming communities.
