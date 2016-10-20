@@ -171,8 +171,8 @@
 
     function forums_create_forum($name, $posttext, $listorder, $canview="all", $canpost="all", $canedit="all"){
         $conn = sql_connect();
-		$name = mysqli_real_escape_string($conn, $name);
-		$posttext = mysqli_real_escape_string($conn, $posttext);
+		$name = mysqli_real_escape_string($conn, htmlspecialchars($name));
+		$posttext = mysqli_real_escape_string($conn, htmlspecialchars($posttext));
 		$listorder = mysqli_real_escape_string($conn, $listorder);
         $poster = get_current_account()->id;
 		$canview = mysqli_real_escape_string($conn, $canview);
@@ -186,8 +186,8 @@
     function forums_create_subforum($parent, $name, $posttext, $listorder, $canview="all", $canpost="all", $canedit="all"){
         $conn = sql_connect();
 		$parent = mysqli_real_escape_string($conn, $parent);
-		$name = mysqli_real_escape_string($conn, $name);
-		$posttext = mysqli_real_escape_string($conn, $posttext);
+		$name = mysqli_real_escape_string($conn, htmlspecialchars($name));
+		$posttext = mysqli_real_escape_string($conn, htmlspecialchars($posttext));
 		$listorder = mysqli_real_escape_string($conn, $listorder);
         $poster = get_current_account()->id;
 		$canview = mysqli_real_escape_string($conn, $canview);
@@ -209,7 +209,7 @@
     function forums_create_reply($thread, $text){
         $conn = sql_connect();
         $thread = mysqli_real_escape_string($conn, $thread);
-        $text = mysqli_real_escape_string($conn, $text);
+        $text = mysqli_real_escape_string($conn, htmlspecialchars($text));
         $poster = get_current_account()->id;
         $time = time();
 		$result = mysqli_query($conn, "INSERT INTO forums(firstposted, type, posttext, poster, parent) VALUES ('$time', 'reply', '$text', '$poster', '$thread')");
@@ -219,12 +219,14 @@
     function forums_create_thread($subforum, $subject, $body){
         $conn = sql_connect();
         $subforum = mysqli_real_escape_string($conn, $subforum);
-        $subject = mysqli_real_escape_string($conn, $subject);
-        $body = mysqli_real_escape_string($conn, $body);
+        $subject = mysqli_real_escape_string($conn, htmlspecialchars($subject));
+        $body = mysqli_real_escape_string($conn, htmlspecialchars($body));
         $poster = get_current_account()->id;
         $time = time();
 		$result = mysqli_query($conn, "INSERT INTO forums(firstposted, lastactive, type, name, posttext, poster, parent) VALUES ('$time', '$time', 'thread', '$subject', '$body', '$poster', '$subforum')");
+        $lastcreatedid = mysqli_insert_id($conn);
 		mysqli_close($conn);
+        return $lastcreatedid;
     }
 
     function thread_toggle_lock($id){
@@ -314,8 +316,8 @@
     function forum_edit($id, $name, $posttext, $listorder){
         $conn = sql_connect();
         $id = mysqli_real_escape_string($conn, $id);
-        $name = mysqli_real_escape_string($conn, $name);
-        $posttext = mysqli_real_escape_string($conn, $posttext);
+        $name = mysqli_real_escape_string($conn, htmlspecialchars($name));
+        $posttext = mysqli_real_escape_string($conn, htmlspecialchars($posttext));
         $listorder = mysqli_real_escape_string($conn, $listorder);
 		$result = mysqli_query($conn, "UPDATE forums SET name='$name',posttext='$posttext',listorder='$listorder' WHERE id='$id'");
 		mysqli_close($conn);
@@ -324,8 +326,8 @@
     function thread_edit($id, $subject, $body){
         $conn = sql_connect();
         $id = mysqli_real_escape_string($conn, $id);
-        $subject = mysqli_real_escape_string($conn, $subject);
-        $body = mysqli_real_escape_string($conn, $body);
+        $subject = mysqli_real_escape_string($conn, htmlspecialchars($subject));
+        $body = mysqli_real_escape_string($conn, htmlspecialchars($body));
         $currAccount = get_current_account();
 		$result = mysqli_query($conn, "UPDATE forums SET name='$subject',posttext='$body',lastedited='".time()."',lastediteduser='".$currAccount->id."' WHERE id='$id'");
 		mysqli_close($conn);
@@ -334,7 +336,7 @@
     function reply_edit($id, $body){
         $conn = sql_connect();
         $id = mysqli_real_escape_string($conn, $id);
-        $body = mysqli_real_escape_string($conn, $body);
+        $body = mysqli_real_escape_string($conn, htmlspecialchars($body));
         $currAccount = get_current_account();
 		$result = mysqli_query($conn, "UPDATE forums SET posttext='$body',lastedited='".time()."',lastediteduser='".$currAccount->id."' WHERE id='$id'");
 		mysqli_close($conn);

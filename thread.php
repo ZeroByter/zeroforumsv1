@@ -68,6 +68,11 @@
                     <button type="button" class="btn btn-primary" id="pin_thread_btn">Pin thread</button>
                     <button type="button" class="btn btn-primary" id="unpin_thread_btn">Unpin thread</button>
                     <button type="button" class="btn btn-danger" id="delete_thread_btn">Delete thread</button>
+					<?
+						if(!tag_has_permission(get_current_usertag(), "forums_deletepost")){
+							removeHTMLElement("#delete_thread_btn");
+						}
+					?>
                 </div>
 				<div class="panel panel-default" style="border-color:#c3c6ff;">
 					<div class="panel-heading" style="overflow:auto;background:#dbdcec;">

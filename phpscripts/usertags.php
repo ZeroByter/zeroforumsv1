@@ -5,6 +5,8 @@
 	$permissions[] = "newspnl_create_post";
 	$permissionsInfo["newspnl_create_post"] = array("name" => "News panel: Create/delete news posts", "desc" => "");
 	// Forums permissions
+	$permissions[] = "forums_deletepost";
+	$permissionsInfo["forums_deletepost"] = array("name" => "Forums: Delete own post", "desc" => "Allows the user to delete his own posts");
 	$permissions[] = "forums_createthread";
 	$permissionsInfo["forums_createthread"] = array("name" => "Forums: Create thread", "desc" => "Create a forum thread");
 	$permissions[] = "forums_createreply";
@@ -145,8 +147,8 @@
 	function add_usertag($name, $permissionstring, $listorder, $isdefault=false, $isstaff=false){
 		$conn = sql_connect();
 
-		$name = mysqli_real_escape_string($conn, $name);
-		$permissionstring = mysqli_real_escape_string($conn, $permissionstring);
+		$name = mysqli_real_escape_string($conn, htmlspecialchars($name));
+		$permissionstring = mysqli_real_escape_string($conn, htmlspecialchars($permissionstring));
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 		$isdefault = mysqli_real_escape_string($conn, $isdefault);
 		$isstaff = mysqli_real_escape_string($conn, $isstaff);
@@ -159,8 +161,8 @@
 		$conn = sql_connect();
 
 		$id = mysqli_real_escape_string($conn, $id);
-		$name = mysqli_real_escape_string($conn, $name);
-		$permissionstring = mysqli_real_escape_string($conn, $permissionstring);
+		$name = mysqli_real_escape_string($conn, htmlspecialchars($name));
+		$permissionstring = mysqli_real_escape_string($conn, htmlspecialchars($permissionstring));
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 		$isstaff = mysqli_real_escape_string($conn, $isstaff);
 
@@ -172,7 +174,7 @@
 		$conn = sql_connect();
 
 		$id = mysqli_real_escape_string($conn, $id);
-		$permissionstring = mysqli_real_escape_string($conn, $permissionstring);
+		$permissionstring = mysqli_real_escape_string($conn, htmlspecialchars($permissionstring));
 
 		$result = mysqli_query($conn, "UPDATE usertags SET permissionstring='$permissionstring' WHERE id='$id'");
 		mysqli_close($conn);

@@ -10,6 +10,7 @@
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
 	include("phpscripts/checkwarnings.php");
+	include("phpscripts/essentials.php");
 
 	if(!$_GET["id"]){
 		echo "<script>window.location = '/forums'</script>";
@@ -29,7 +30,7 @@
 			<td id="body_center_space">
 				<ol class="breadcrumb">
 					<li><a href="/forums">Forums</a></li>
-					<li class="active"><?echo $subforum->name;?></li>
+					<li class="active"><?echo filterXSS($subforum->name);?></li>
 				</ol>
 				<div class="well" style="padding-top:0px;">
 					<div id="forum_actions">

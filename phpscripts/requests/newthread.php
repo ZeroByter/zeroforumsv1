@@ -12,12 +12,12 @@
             $account = get_current_account();
             if(can_tag_do($currenttag, $parent->canpost)){
                 if(tag_has_permission($currenttag, "forums_createthread")){
-                    forums_create_thread($parent->id, $_POST["subject"], $_POST["body"]);
+                    $newid = forums_create_thread($parent->id, $_POST["subject"], $_POST["body"]);
                     create_log($account->username . " posted a thread with subject '".$_POST["subject"]."' and body '".$_POST["body"]."'");
                     add_user_posts($account->id);
                     forums_update_lastactive(get_current_account()->id);
                     forums_update_lastactive($parent->id);
-                    echo "success";
+                    echo $newid;
                 }else{
                     echo "error:You don't have permission to post a reply!";
                 }

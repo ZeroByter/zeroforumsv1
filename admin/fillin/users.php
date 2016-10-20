@@ -21,6 +21,10 @@
         color: white;
         float: right;
     }
+
+    #search_user_in{
+        max-width: 240px;
+    }
 </style>
 
 <nav id="nav_bar" class="navbar navbar-default">
@@ -56,6 +60,10 @@
                 <button type="button" disabled class="btn btn-danger navbar-btn users_actions_btn test" id="banuser">Ban user</button>
                 <button type="button" disabled class="btn btn-default navbar-btn users_actions_btn" id="unbanuser" style="display:none;">Unban user</button>
 			</ul>
+            <div class="input-group" style="margin-bottom:10px;">
+                <span class="input-group-addon">Search</span>
+                <input type="text" class="form-control" placeholder="Username or display name" id="search_user_in">
+            </div>
 		</div>
 	</div>
 </nav>
@@ -81,13 +89,13 @@
                     $isbannedraw = ($value->bannedby != 0) ? "true" : "false";
                     $iswarned = (count(get_user_warnings($value->id)) > 0) ? "Yes ".count(get_user_warnings($value->id))." times" : "No";
                     echo "
-                        <tr class='users_list_row' data-id='$value->id' data-isbanned='$isbannedraw'>
+                        <tr class='users_list_row' data-id='$value->id' data-username='$value->username' data-displayname='$value->displayname' data-isbanned='$isbannedraw'>
                             <td>$isbanned</td>
                             <td>$iswarned</td>
                             <td>$lastjoined ago</td>
                             <td>$lastactive ago</td>
                             <td>".filterXSS($value->username)."</td>
-                            <td>$value->displayname</td>
+                            <td>".filterXSS($value->displayname)."</td>
                             <td>$value->posts</td>
                         </tr>
                     ";
@@ -139,6 +147,21 @@
 </div>
 
 <script>
+    $("#search_user_in").bind("change keyup", function(){
+        var searchTerm = $(this).val().toLowerCase()
+        if(searchTerm === ""){
+            $(".users_list_row").css("display", "table-row")
+        }else{
+            $(".users_list_row").each(function(i,v){
+                if($(v).data("username").toLowerCase().indexOf(searchTerm) > -1 || $(v).data("displayname").toLowerCase().indexOf(searchTerm) > -1){
+                    $(v).css("display", "table-row")
+                }else{
+                    $(v).css("display", "none")
+                }
+            })
+        }
+    })
+
     var selectedUser
     $(".users_list_row").click(function(){ //when user clicks on user in userslist
         $(".users_list_row").each(function(i, v){

@@ -179,12 +179,12 @@
 		$conn = sql_connect();
 		$sessionid = generate_sessionid();
 		$salt = hash("sha256", generate_sessionid());
-		$username = mysqli_real_escape_string($conn, $username);
-		$displayname = mysqli_real_escape_string($conn, $displayname);
+		$username = mysqli_real_escape_string($conn, htmlspecialchars($username));
+		$displayname = mysqli_real_escape_string($conn, htmlspecialchars($displayname));
 		$password = mysqli_real_escape_string($conn, hash("sha256", "$password:$salt"));
 		$tag = mysqli_real_escape_string($conn, $tag);
-		$email = mysqli_real_escape_string($conn, $email);
-		$bio = mysqli_real_escape_string($conn, $bio);
+		$email = mysqli_real_escape_string($conn, htmlspecialchars($email));
+		$bio = mysqli_real_escape_string($conn, htmlspecialchars($bio));
 		$time = time();
 		mysqli_query($conn, "INSERT INTO accounts(username, password, displayname, tag, email, bio, sessionid, salt, lastactive, joined, privacy_use_displayname) VALUES ('$username', '$password', '$displayname', '$tag', '$email', '$bio', '$sessionid', '$salt', '$time', '$time', '1')");
 		$lastid = mysqli_insert_id($conn);
@@ -235,7 +235,7 @@
 
 		$conn = sql_connect();
 		$id = mysqli_real_escape_string($conn, $id);
-		$reason = mysqli_real_escape_string($conn, $reason);
+		$reason = mysqli_real_escape_string($conn, htmlspecialchars($reason));
 		mysqli_query($conn, "UPDATE accounts SET warnings='$warningsArray' WHERE id='$id'");
 		mysqli_close($conn);
 	}
@@ -257,8 +257,8 @@
 	function issue_user_ban($id, $reason, $time){
 		$conn = sql_connect();
 		$id = mysqli_real_escape_string($conn, $id);
-		$reason = mysqli_real_escape_string($conn, $reason);
-		$time = mysqli_real_escape_string($conn, $time);
+		$reason = mysqli_real_escape_string($conn, htmlspecialchars($reason));
+		$time = mysqli_real_escape_string($conn, htmlspecialchars($time));
 		$currTime = time();
 		$unbanTime = $currTime + $time;
 		$currAccount = get_current_account()->id;
@@ -284,7 +284,7 @@
 
 	function change_bio($text){
 		$conn = sql_connect();
-		$text = mysqli_real_escape_string($conn, $text);
+		$text = mysqli_real_escape_string($conn, htmlspecialchars($text));
 		$currAccount = get_current_account();
 		mysqli_query($conn, "UPDATE accounts SET bio='$text' WHERE id='$currAccount->id'");
 		mysqli_close($conn);
@@ -369,7 +369,7 @@
 	function change_user_displayname($id, $displayname){
 		$conn = sql_connect();
 		$id = mysqli_real_escape_string($conn, $id);
-		$displayname = mysqli_real_escape_string($conn, $displayname);
+		$displayname = mysqli_real_escape_string($conn, htmlspecialchars($displayname));
 		mysqli_query($conn, "UPDATE accounts SET displayname='$displayname' WHERE id='$id'");
 		mysqli_close($conn);
 	}
@@ -387,7 +387,7 @@
 		$account = get_account_by_id($id);
 		$conn = sql_connect();
 		$id = mysqli_real_escape_string($conn, $id);
-		$email = mysqli_real_escape_string($conn, $email);
+		$email = mysqli_real_escape_string($conn, htmlspecialchars($email));
 		mysqli_query($conn, "UPDATE accounts SET email='$email' WHERE id='$id'");
 		mysqli_close($conn);
 	}

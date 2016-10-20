@@ -12,8 +12,9 @@ $.get("/phpscripts/fillin/zeroeditor", function(html){
 
 $("#submit_form").submit(function(){
     $.post("/phpscripts/requests/newthread", {parent: $("#get_parent_id").data("id"), subject: $("#subject_in").val(), body: getEditorString()}, function(html){
-        window.location = "/subforum?id=" + $("#get_parent_id").data("id")
+        window.location = "/thread?id=" + html
     })
+    return false
 })
 $("#cancel").click(function(){
     window.location = "/subforum?id=" + $("#get_parent_id").data("id")

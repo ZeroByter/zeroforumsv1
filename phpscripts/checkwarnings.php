@@ -35,7 +35,7 @@
                 $unbanTime = timestamp_to_date($currentAccount->unbantime, true);
 
                 $banHtml = $banHtml . "
-                    You have been banned: $bannedReason<br>
+                    You have been banned: ".htmlspecialchars($bannedReason)."<br>
                     Ban issued on $bannedOn by $bannedBy<br>
                     Ban expires on: $unbanTime<br>
                     <button type='button' class='btn btn-primary' id='okay_ban'>Okay</button><br><br>
@@ -48,7 +48,7 @@
                     $warningTime = get_human_time($value->time);
                     $warningsHtml = $warningsHtml . "
                         <p>By $warnedBy $warningTime ago<br>
-                        $value->message</p>
+                        ".htmlspecialchars($value->message)."</p>
                     ";
                 }
                 $warningsHtml = $warningsHtml . "<button type='button' class='btn btn-primary' id='okay_warnings'>Acknowledge warnings</button>";

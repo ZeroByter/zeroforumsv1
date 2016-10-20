@@ -35,8 +35,8 @@
     function newsposts_create_newspost($title, $text, $canview="all;"){
         $conn = sql_connect();
 
-		$title = mysqli_real_escape_string($conn, $title);
-		$text = mysqli_real_escape_string($conn, $text);
+		$title = mysqli_real_escape_string($conn, htmlspecialchars($title));
+		$text = mysqli_real_escape_string($conn, htmlspecialchars($text));
 		$canview = mysqli_real_escape_string($conn, $canview);
 
         $time = time();
@@ -55,9 +55,9 @@
     function update_newspost($id, $title, $text, $canview){
         $conn = sql_connect();
         $id = mysqli_real_escape_string($conn, $id);
-        $title = mysqli_real_escape_string($conn, $title);
-        $text = mysqli_real_escape_string($conn, $text);
-        $canview = mysqli_real_escape_string($conn, $canview);
+        $title = mysqli_real_escape_string($conn, htmlspecialchars($title));
+        $text = mysqli_real_escape_string($conn, htmlspecialchars($text));
+        $canview = mysqli_real_escape_string($conn, htmlspecialchars($canview));
         $result = mysqli_query($conn, "UPDATE newsposts SET posttitle='$title',posttext='$text',canview='$canview' WHERE id='$id'");
         mysqli_close($conn);
     }

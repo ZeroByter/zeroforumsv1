@@ -13,6 +13,9 @@
                 foreach($lastestThreads as $value){
                     if($value){
                         $parent = get_forum_by_id($value->parent);
+                        if($value->hidden && !tag_has_permission(get_current_usertag(), "forums_threadhideunhide")){
+                            continue;
+                        }
                         if(!can_tag_do(get_current_usertag_or_default(), $parent->canview)){
                             continue;
                         }

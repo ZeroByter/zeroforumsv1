@@ -41,6 +41,7 @@
 	}
 
 	function set_navbar_title($text){
+		$text = htmlspecialchars($text);
 		if(get_navbar_title()){
 			$conn = sql_connect();
 			$text = mysqli_real_escape_string($conn, $text);
@@ -67,7 +68,7 @@
 
 	function add_navbar_link($text, $link, $listorder, $canview, $canedit=true, $candelete=true){
 		$conn = sql_connect();
-		$text = mysqli_real_escape_string($conn, $text);
+		$text = mysqli_real_escape_string($conn, htmlspecialchars($text));
 		$link = mysqli_real_escape_string($conn, $link);
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 		$canview = mysqli_real_escape_string($conn, $canview);
@@ -87,7 +88,7 @@
 	function update_navbar_link($id, $text, $link, $canview, $listorder){
 		$conn = sql_connect();
 		$id = mysqli_real_escape_string($conn, $id);
-		$text = mysqli_real_escape_string($conn, $text);
+		$text = mysqli_real_escape_string($conn, htmlspecialchars($text));
 		$link = mysqli_real_escape_string($conn, $link);
 		$canview = mysqli_real_escape_string($conn, $canview);
 		$listorder = mysqli_real_escape_string($conn, $listorder);

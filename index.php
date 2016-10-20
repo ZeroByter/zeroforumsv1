@@ -35,7 +35,7 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading">Most recent user</div>
 					<div class="panel-body">
-						<div><?echo get_account_display_name($lastAccount->id);?></div>
+						<div><a href="profile?id=<?echo $lastAccount->id?>"><?echo get_account_display_name($lastAccount->id);?></div>
 						<div style="float:right;"><?echo get_human_time($lastAccount->joined) . " ago"?></div>
 					</div>
 				</div>
