@@ -1,7 +1,7 @@
 <div class="panel panel-default" style="margin-top:18px;">
     <div class="panel-heading">Sub-forums</div>
     <div class="panel-body" style="padding:0px;">
-        <?
+        <?php
         include("../getsql.php");
         include("../accounts.php");
         include("../usertags.php");

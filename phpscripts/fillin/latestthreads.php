@@ -1,7 +1,7 @@
 <div class="panel" style="border-color:#6033b7;">
     <div class="panel-heading" style="background:#6033b7;color:white;">All the latest threads</div>
     <div class="panel-body" style='padding:4px;'>
-        <?
+        <?php
             include("../getsql.php");
             include("../accounts.php");
             include("../usertags.php");

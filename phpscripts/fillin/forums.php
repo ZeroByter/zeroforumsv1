@@ -1,4 +1,4 @@
-<?
+<?php
     include("../getsql.php");
     include("../usertags.php");
     include("../accounts.php");

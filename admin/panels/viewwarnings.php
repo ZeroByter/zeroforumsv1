@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -33,7 +33,7 @@
     }
 </style>
 
-<span id="getid" style="display:none;"><?echo $account->id?></span>
+<span id="getid" style="display:none;"><?phpecho $account->id?></span>
 <div class="main_body_div">
     <table id="main_table" class="table table-hover">
         <thead>
@@ -44,7 +44,7 @@
             </tr>
         </thead>
         <tbody>
-            <?
+            <?php
                 foreach(get_user_warnings($account->id) as $key=>$value){
                     if($value){
                         $remove_warning_string = "";

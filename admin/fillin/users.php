@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/essentials.php");
     include("../../phpscripts/accounts.php");
@@ -47,7 +47,7 @@
                         Assign new rank <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <?
+                        <?php
                             foreach(get_all_usertags_limited() as $value){
                                 if($value){
                                     echo "<li><a href='javascript:void(0)' class='set_user_usertag' data-id='$value->id'>$value->name</a></li>";
@@ -80,7 +80,7 @@
         </tr>
     </thead>
     <tbody>
-        <?
+        <?php
             foreach(get_all_accounts_by_usertag($_GET["usertag"]) as $value){
                 if($value){
                     $lastjoined = get_human_time($value->joined);
@@ -105,7 +105,7 @@
     </tbody>
 </table>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "userspnl_assign_usertag")){
         removeHTMLElement("#assign_usertag");
     }

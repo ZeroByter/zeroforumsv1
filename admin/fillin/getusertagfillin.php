@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -15,16 +15,16 @@
     }
 </style>
 
-<span id="getinfo" data-id="<?echo $usertag->id?>" data-name="<?echo $usertag->name?>" data-listorder="<?echo $usertag->listorder?>" data-isstaff="<?echo $usertag->isstaff?>"></span>
+<span id="getinfo" data-id="<?phpecho $usertag->id?>" data-name="<?phpecho $usertag->name?>" data-listorder="<?phpecho $usertag->listorder?>" data-isstaff="<?phpecho $usertag->isstaff?>"></span>
 <div id="usertag_main_div" class="panel panel-default">
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-addon">Name</span>
-            <input type="text" class="form-control" id="usertag_name_in" value="<?echo $usertag->name?>">
+            <input type="text" class="form-control" id="usertag_name_in" value="<?phpecho $usertag->name?>">
         </div>
         <div class="input-group">
             <span class="input-group-addon" data-toggle='tooltip' data-placement='bottom' title='In what order should this usertag be sorted?'>The usertag order</span>
-            <input type="number" class="form-control" id="usertag_listorder_in" value="<?echo $usertag->listorder?>">
+            <input type="number" class="form-control" id="usertag_listorder_in" value="<?phpecho $usertag->listorder?>">
         </div>
         <div class="checkbox" data-toggle="tooltip" title="Is this usertag considered a staff usertag? If so, it will be shown in the 'staff' page.">
             <label><input type="checkbox" id="usertag_isstaff_in">Is this usertag a staff usertag?</label>
@@ -32,7 +32,7 @@
         <button type="button" class="btn btn-danger" style="width:100%;" id="delete_usertag" data-toggle="tooltip" title="If you delete this usertag, all users in it will be switched to the default usertag!">Delete</button>
         <button type="button" class="btn btn-default" style="width:100%;margin-top:6px;" id="make_default_usertag">Make this usertag the default usertag</button><br><br>
         <span style="text-align:center;display:block;font-size:14px;" class="label label-info" data-toggle='tooltip' title="You must go to the 'permissions' tab to set the permissions for any created usertag">Where can I set the permissions for my usertag?</span>
-        <?
+        <?php
             if($usertag->isdefault){
                 echo "<script>$('#delete_usertag').attr('disabled', '').html('You can\'t delete the default usertag!')</script>";
                 echo "<script>$('#make_default_usertag').attr('disabled', '').html('This usertag is already the default!')</script>";
@@ -44,7 +44,7 @@
     </div>
 </div>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "usertagpnl_create_usertag")){
         removeHTMLElement("#delete_usertag");
     }

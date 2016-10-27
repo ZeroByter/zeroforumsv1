@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -29,15 +29,15 @@
     }
 </style>
 
-<span id="getid"><?echo $newspost->id?></span>
-<span id="gettitle"><?echo $newspost->posttitle?></span>
-<span id="gettext"><?echo $newspost->posttext?></span>
-<span id="getcanview"><?echo $newspost->canview?></span>
+<span id="getid"><?phpecho $newspost->id?></span>
+<span id="gettitle"><?phpecho $newspost->posttitle?></span>
+<span id="gettext"><?phpecho $newspost->posttext?></span>
+<span id="getcanview"><?phpecho $newspost->canview?></span>
 <div id="newspost_main_div" class="panel panel-default">
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-addon">Title</span>
-            <input type="text" class="form-control" id="post_title_in" value="<?echo $newspost->posttitle?>">
+            <input type="text" class="form-control" id="post_title_in" value="<?phpecho $newspost->posttitle?>">
         </div>
         <div class="input-group">
             <span class="input-group-addon">Post body</span>
@@ -50,7 +50,7 @@
 
             <button class="toggle_btn" id="canview_staff" data-name="staff" data-state="false">Staff</button>
             <br><br>Usertags:<br>
-            <?
+            <?php
                 foreach(get_all_usertags() as $value){
                     if($value){
                         echo "<button class='toggle_btn' id='canview_tag_$value->id' data-name='$value->id' data-state='false'>$value->name</button>";
@@ -63,7 +63,7 @@
     </div>
 </div>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "newspnl_create_post")){
         removeHTMLElement("#delete_post");
     }

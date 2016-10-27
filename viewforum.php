@@ -4,7 +4,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/viewforum.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/usertags.php");
 	include("phpscripts/accounts.php");
@@ -19,7 +19,7 @@
 	$subforum = get_forum_by_id($_GET["id"]);
 ?>
 
-<span id="getid" data-id="<?echo $_GET["id"];?>"></span>
+<span id="getid" data-id="<?phpecho $_GET["id"];?>"></span>
 <div id="main_body">
 	<span id="fillin_navbar"></span>
 	<table id="main_body_table">
@@ -30,7 +30,7 @@
 			<td id="body_center_space">
 				<ol class="breadcrumb">
 					<li><a href="/forums">Forums</a></li>
-					<li class="active"><?echo filterXSS($subforum->name);?></li>
+					<li class="active"><?phpecho filterXSS($subforum->name);?></li>
 				</ol>
 				<div class="well" style="padding-top:0px;">
 					<div id="forum_actions">
@@ -45,7 +45,7 @@
 	</table>
 </div>
 
-<?
+<?php
 	if(!tag_has_permission(get_current_account()->tag, "postthreads")){
 		echo "<script id='remove_script'>$('#forum_actions').children()[0].remove();$('#remove_script').remove()</script>";
 	}

@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -61,7 +61,7 @@
 </style>
 
 <div id="side_list_div">
-    <center><br>'<?echo $displayName?>' IP history</center>
+    <center><br>'<?phpecho $displayName?>' IP history</center>
     <br><br>
     <div class='side_list_item_div row_active' id="ip_history">Account IP history</div>
     <div class='side_list_item_div' id="same_ip_list">Other accounts with the same IP</div>
@@ -76,7 +76,7 @@
             </tr>
         </thead>
         <tbody>
-            <?
+            <?php
                 foreach(get_user_iplist($account->id) as $value){
                     if($value){
                         echo "
@@ -93,7 +93,7 @@
     </table>
 </div>
 <div id="same_ip_accounts_div" class="main_body_div" style="display:none;">
-    <?
+    <?php
         $all_same_ip_accounts = get_all_same_ip_accounts($account->id, $account->id);
         foreach($all_same_ip_accounts as $value){
             echo "<div class='same_ip_account_list_div' data-id='$value->id'>".get_account_display_name($value->id)."</div>";

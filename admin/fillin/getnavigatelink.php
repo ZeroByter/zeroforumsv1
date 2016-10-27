@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -31,22 +31,22 @@
     }
 </style>
 
-<span id="getinfo" data-id="<?echo $navlink->id?>" data-canview="<?echo $navlink->canview?>" data-text="<?echo $navlink->text?>" data-link="<?echo $navlink->link?>" data-listorder="<?echo $navlink->listorder?>"></span>
+<span id="getinfo" data-id="<?phpecho $navlink->id?>" data-canview="<?phpecho $navlink->canview?>" data-text="<?phpecho $navlink->text?>" data-link="<?phpecho $navlink->link?>" data-listorder="<?phpecho $navlink->listorder?>"></span>
 <div id="link_main_div" class="panel panel-default">
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-addon">Text</span>
-            <input type="text" class="form-control" id="navlink_text_in" value="<?echo $navlink->text?>" <?echo $canedit?>>
+            <input type="text" class="form-control" id="navlink_text_in" value="<?phpecho $navlink->text?>" <?phpecho $canedit?>>
         </div>
         <div class="input-group">
             <span class="input-group-addon">URL Link</span>
-            <input type="text" class="form-control" id="navlink_link_in" value="<?echo $navlink->link?>" <?echo $canedit?>>
+            <input type="text" class="form-control" id="navlink_link_in" value="<?phpecho $navlink->link?>" <?phpecho $canedit?>>
         </div>
         <div class="input-group">
             <span class="input-group-addon" data-toggle='tooltip' data-placement='bottom' title='In what order should this link be viewed?'>The viewing order</span>
-            <input type="number" class="form-control" id="navlink_listorder_in" value="<?echo $navlink->listorder?>" <?echo $canedit?>>
+            <input type="number" class="form-control" id="navlink_listorder_in" value="<?phpecho $navlink->listorder?>" <?phpecho $canedit?>>
         </div>
-        <button type="button" class="btn btn-danger" style="width:100%;" id="delete_link" <?echo $canedit?>>Delete</button>
+        <button type="button" class="btn btn-danger" style="width:100%;" id="delete_link" <?phpecho $canedit?>>Delete</button>
         <div class="link_canview_div">
             Who can view?<br>
             <button class="toggle_btn" id="canview_all" data-name="all" data-state="false">All</button>
@@ -54,7 +54,7 @@
             
             <button class="toggle_btn" id="canview_staff" data-name="staff" data-state="false">Staff</button>
             <br><br>Usertags:<br>
-            <?
+            <?php
                 foreach(get_all_usertags() as $value){
                     if($value){
                         echo "<button class='toggle_btn' id='canview_tag_$value->id' data-name='$value->id' data-state='false'>$value->name</button>";
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "navigatepnl_create_new_link")){
         removeHTMLElement("#delete_link");
     }
@@ -134,7 +134,7 @@
     })
 </script>
 
-<?
+<?php
     if(!$navlink->canedit){
         removeHTMLElement("#navlink_script");
         removeHTMLElement("#delete_link");

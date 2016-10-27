@@ -5,7 +5,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/index.css" rel="stylesheet">
 
-<?
+<?phpphp
 	include("phpscripts/getsql.php");
 	include("phpscripts/essentials.php");
 	include("phpscripts/accounts.php");
@@ -35,14 +35,14 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading">Most recent user</div>
 					<div class="panel-body">
-						<div><a href="profile?id=<?echo $lastAccount->id?>"><?echo get_account_display_name($lastAccount->id);?></div>
-						<div style="float:right;"><?echo get_human_time($lastAccount->joined) . " ago"?></div>
+						<div><a href="profile?id=<?phpecho $lastAccount->id?>"><?phpecho get_account_display_name($lastAccount->id);?></div>
+						<div style="float:right;"><?phpecho get_human_time($lastAccount->joined) . " ago"?></div>
 					</div>
 				</div>
 			</td>
 			<td id="body_center_space">
 				<div id="body_news_fixer_div">
-					<?
+					<?php
 						foreach(newsposts_get_all_posts() as $value){
 							if($value){
 								if(can_tag_do(get_current_usertag_or_default(), $value->canview)){

@@ -3,7 +3,7 @@
 <link href="/stylesheets/bootstrap.css" rel="stylesheet">
 <link href="/stylesheets/base.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/essentials.php");
 	include("phpscripts/accounts.php");

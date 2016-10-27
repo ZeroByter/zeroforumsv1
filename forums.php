@@ -4,7 +4,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/forums.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");

@@ -1,4 +1,4 @@
-<?
+<?php
     function logs_create_db(){
         $conn = sql_connect();
 		mysqli_query($conn, "CREATE TABLE IF NOT EXISTS logs(
@@ -46,7 +46,7 @@
         $ampm = (getdate($time)["hours"] > 12) ? "(PM)" : "(AM)";
 
         $conn = sql_connect();
-		$text = mysqli_real_escape_string($conn, htmlspecialchars($text)); //at first I didnt think I would need to filter this but because there are usernames in these logs then nopenopenope 20-10-2016
+		$text = mysqli_real_escape_string($conn, $text); //at first I didnt think I would need to filter this but because there are usernames in these logs then nopenopenope 20-10-2016
 		mysqli_query($conn, "INSERT INTO logs(date, time, text) VALUES ('$filedate', '$logdate $ampm', '$text')");
 		mysqli_close($conn);
     }

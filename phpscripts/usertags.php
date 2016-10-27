@@ -1,4 +1,4 @@
-<?
+<?php
 	$permissions = [];
 	$permissionsInfo = [];
 	// News posts panel permissions
@@ -147,8 +147,8 @@
 	function add_usertag($name, $permissionstring, $listorder, $isdefault=false, $isstaff=false){
 		$conn = sql_connect();
 
-		$name = mysqli_real_escape_string($conn, htmlspecialchars($name));
-		$permissionstring = mysqli_real_escape_string($conn, htmlspecialchars($permissionstring));
+		$name = mysqli_real_escape_string($conn, $name);
+		$permissionstring = mysqli_real_escape_string($conn, $permissionstring);
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 		$isdefault = mysqli_real_escape_string($conn, $isdefault);
 		$isstaff = mysqli_real_escape_string($conn, $isstaff);
@@ -161,8 +161,8 @@
 		$conn = sql_connect();
 
 		$id = mysqli_real_escape_string($conn, $id);
-		$name = mysqli_real_escape_string($conn, htmlspecialchars($name));
-		$permissionstring = mysqli_real_escape_string($conn, htmlspecialchars($permissionstring));
+		$name = mysqli_real_escape_string($conn, $name);
+		$permissionstring = mysqli_real_escape_string($conn, $permissionstring);
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 		$isstaff = mysqli_real_escape_string($conn, $isstaff);
 
@@ -174,7 +174,7 @@
 		$conn = sql_connect();
 
 		$id = mysqli_real_escape_string($conn, $id);
-		$permissionstring = mysqli_real_escape_string($conn, htmlspecialchars($permissionstring));
+		$permissionstring = mysqli_real_escape_string($conn, $permissionstring);
 
 		$result = mysqli_query($conn, "UPDATE usertags SET permissionstring='$permissionstring' WHERE id='$id'");
 		mysqli_close($conn);

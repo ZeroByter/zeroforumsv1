@@ -5,7 +5,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/index.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/essentials.php");
 	include("phpscripts/accounts.php");
@@ -38,7 +38,7 @@
 
 			</td>
 			<td id="body_center_space">
-				<?
+				<?php
 					if(count(get_all_rule_categories()) - 1 === 0){
 						echo "<center><span class='label label-danger'>There are no rules!</span></center>";
 					}

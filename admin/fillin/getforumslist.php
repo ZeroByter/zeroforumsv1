@@ -1,6 +1,6 @@
 <div class='forum_fake_list_div' id='create_new_forum' style='color:green;'>Create a new forum</div>
 
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -66,4 +66,4 @@
     })
 </script>
 
-<?isset($_GET["active"]) ? "<script>selectedForumItem = ".$_GET["active"]."</script>" : "";?>
+<?phpisset($_GET["active"]) ? "<script>selectedForumItem = ".$_GET["active"]."</script>" : "";?>

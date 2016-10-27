@@ -1,4 +1,4 @@
-<?
+<?php
     include("../getsql.php");
     include("../accounts.php");
     include("../usertags.php");
@@ -10,6 +10,7 @@
         if($thread->id){
             $currenttag = get_current_usertag();
             if($thread->poster == get_current_account()->id || tag_has_permission(get_current_usertag(), "forums_editothers")){
+                create_log(get_current_account()->username . " edited '".get_account_by_id($thread->poster)->username."'s thread");
                 thread_edit($_POST["id"], $_POST["subject"], $_POST["body"]);
                 update_user_lastactive(get_current_account()->id);
                 echo "success";

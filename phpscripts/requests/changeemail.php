@@ -1,4 +1,4 @@
-<?
+<?php
     include("../getsql.php");
     include("../accounts.php");
 
@@ -8,6 +8,7 @@
         $account = get_current_account();
         if($username == $account->username && hash("sha256", "$password:$account->salt") == $account->password){
             change_user_email($account->id, $_POST["newemail"]);
+            create_log(get_current_account()->username . " edited his own email to '$account->email'");
             echo "success";
         }else{
             echo "error:incorrect login information!";

@@ -4,7 +4,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/stafflist.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/essentials.php");
 	include("phpscripts/accounts.php");
@@ -21,7 +21,7 @@
 
 			</td>
 			<td id="body_center_space">
-				<?
+				<?php
 					foreach(get_all_staff_usertags("DESC") as $value){
 						if($value){
 							$staff_accounts_string = "";

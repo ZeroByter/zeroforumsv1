@@ -4,7 +4,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/login.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/usertags.php");
 ?>

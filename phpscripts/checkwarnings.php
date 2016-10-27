@@ -15,7 +15,7 @@
     }
 </style>
 
-<?
+<?php
     //This file checkes for BOTH warnings AND bans! I just thought 'checkwarningsandbans.php' is too long of a file title.
     $htmlString = "";
     $warningsHtml = "";

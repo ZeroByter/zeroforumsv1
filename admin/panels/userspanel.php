@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/essentials.php");
     include("../../phpscripts/accounts.php");
@@ -43,7 +43,7 @@
 <div id="users_usertags_list_div">
     <center><br><span class="glyphicon glyphicon-tags"></span> User tags</center>
     <br>
-    <?
+    <?php
         foreach(get_all_usertags_limited() as $value){
             if($value){
                 echo "

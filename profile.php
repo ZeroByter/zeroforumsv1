@@ -5,7 +5,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/profile.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/essentials.php");
 	include("phpscripts/accounts.php");
@@ -37,29 +37,29 @@
 					<div class="panel panel-default" style="border-color:#cccccc;">
 						<div class="panel-body">
 							<div style="float:right;">
-								<h5><?echo $usertag->name;?></h5>
+								<h5><?phpecho $usertag->name;?></h5>
 							</div>
 							<div style="float:left;">
-								<h2><?echo filterXSS($displayName)?></h2>
-								<h4 style="margin-top:6px;" id="bio_text"><?echo filterXSS($account->bio)?></h4>
-								<input type="text" class="form-control" id="bio_input" value="<?echo $account->bio?>" style="display:none;">
+								<h2><?phpecho filterXSS($displayName)?></h2>
+								<h4 style="margin-top:6px;" id="bio_text"><?phpecho filterXSS($account->bio)?></h4>
+								<input type="text" class="form-control" id="bio_input" value="<?phpecho $account->bio?>" style="display:none;">
 							</div>
 						</div>
 					</div>
 					<div class="panel panel-default" style="border-color:#cccccc;">
 						<div class="panel-body" style="padding-bottom:6px;">
 							<h5>
-								<p>Joined on: <?echo timestamp_to_date($account->joined);?></p>
-								<p>Last seen: <?echo get_human_time($account->lastactive) . " ago";?></p>
-								<p>Posts: <?echo filterXSS($account->posts);?></p>
-								<p><?echo ($account->email === "" || $account->privacy_show_email == false) ? "" : "Email: " . filterXSS($account->email);?></p>
+								<p>Joined on: <?phpecho timestamp_to_date($account->joined);?></p>
+								<p>Last seen: <?phpecho get_human_time($account->lastactive) . " ago";?></p>
+								<p>Posts: <?phpecho filterXSS($account->posts);?></p>
+								<p><?phpecho ($account->email === "" || $account->privacy_show_email == false) ? "" : "Email: " . filterXSS($account->email);?></p>
 							</h5>
 						</div>
 					</div>
 					<div class="panel panel-default" style="border-color:#cccccc;">
 						<div class="panel-body" id="activity_container_div">
-							<center><h4><?echo (count(get_all_posts_by_poster($account->id)) - 1 === 0) ? "No forums activity" : "Forums activity";?></h4></center>
-							<?
+							<center><h4><?phpecho (count(get_all_posts_by_poster($account->id)) - 1 === 0) ? "No forums activity" : "Forums activity";?></h4></center>
+							<?php
 								foreach(get_all_posts_by_poster($account->id) as $value){
 									if($value){
 										//if(!can_tag_do(get_current_usertag_or_default(), $value->canview)){
@@ -107,7 +107,7 @@
 					</div>
 				</div>
 			</td>
-			<?
+			<?php
 				$punishment_view_display = "none"; //none or table-cell
 				if($account->unbantime > 0){
 					$punishment_view_display = "table-cell";
@@ -116,7 +116,7 @@
 					$punishment_view_display = "table-cell";
 				}
 			?>
-			<td id="body_right_space" style="display:<?echo $punishment_view_display?>;">
+			<td id="body_right_space" style="display:<?phpecho $punishment_view_display?>;">
 				todo: view only if user is banned
 			</td>
 		</tr>

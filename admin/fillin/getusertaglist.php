@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -35,4 +35,4 @@
     })
 </script>
 
-<?isset($_GET["active"]) ? "<script>selectedUsertag = ".$_GET["active"]."</script>" : "";?>
+<?phpisset($_GET["active"]) ? "<script>selectedUsertag = ".$_GET["active"]."</script>" : "";?>

@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -69,7 +69,7 @@
     <span id="fillin_usertag"></span>
 </div>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "usertagpnl_create_usertag")){
         removeHTMLElement("#create_new_link");
     }

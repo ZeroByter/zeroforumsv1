@@ -1,4 +1,4 @@
-<?
+<?php
 	include("getsql.php");
 	include("navigatebar.php");
 	include("usertags.php");

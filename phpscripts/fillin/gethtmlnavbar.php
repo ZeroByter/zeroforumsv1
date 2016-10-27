@@ -1,4 +1,4 @@
-<?
+<?php
 	include("../getsql.php");
 	include("../accounts.php");
 	include("../usertags.php");
@@ -14,12 +14,12 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/"><?echo get_navbar_title()->text;?></a>
+			<a class="navbar-brand" href="/"><?phpecho get_navbar_title()->text;?></a>
 		</div>
 
 		<div class="collapse navbar-collapse" id="main_navbar_collapse">
 			<ul class="nav navbar-nav">
-				<?
+				<?php
                     $usertag = get_default_usertag()->id;
 					if(isset(get_current_account()->id)){
 						$usertag = get_current_account()->tag;

@@ -4,7 +4,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/subforums.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
@@ -22,7 +22,7 @@
 	}
 ?>
 
-<span id="getid" data-id="<?echo $_GET["id"];?>"></span>
+<span id="getid" data-id="<?phpecho $_GET["id"];?>"></span>
 <div id="main_body">
 	<span id="fillin_navbar"></span>
 	<table id="main_body_table">
@@ -33,12 +33,12 @@
 			<td id="body_center_space">
 				<ol class="breadcrumb">
 					<li><a href="/forums">Forums</a></li>
-					<?echo ($subforum->id != 0) ? "<li><a href='/viewforum?id=$subforum->parent'>" . get_forum_by_id($subforum->parent)->name . "</a></li>" : "";?>
-					<li class="active"><?echo $subforum->name;?></li>
+					<?phpecho ($subforum->id != 0) ? "<li><a href='/viewforum?id=$subforum->parent'>" . get_forum_by_id($subforum->parent)->name . "</a></li>" : "";?>
+					<li class="active"><?phpecho $subforum->name;?></li>
 				</ol>
 				<div class="well" style="padding-top:0px;">
 					<div id="forum_actions">
-						<a href="/postthread?parent=<?echo $subforum->id;?>"><button type="button" class="btn btn-success" id="new_thread_btn">Post thread</button></a>
+						<a href="/postthread?parent=<?phpecho $subforum->id;?>"><button type="button" class="btn btn-success" id="new_thread_btn">Post thread</button></a>
 						<button type="button" class="btn btn-info" id="search_btn">Search forum</button>
 						<input type="text" class="form-control" style="width:200px;display:inline;">
 					</div>
@@ -50,7 +50,7 @@
 	</table>
 </div>
 
-<?
+<?php
 	if(!tag_has_permission(get_current_account()->tag, "forums_createthread")){
 		echo "<script id='remove_script'>$('#forum_actions').children()[0].remove();$('#remove_script').remove()</script>";
 	}

@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -37,20 +37,20 @@
 	}
 </style>
 
-<span id="getinfo" data-id="<?echo $forum->id?>" data-name="<?echo $forum->name?>" data-posttext="<?echo $forum->posttext?>" data-listorder="<?echo $forum->listorder?>"></span>
+<span id="getinfo" data-id="<?phpecho $forum->id?>" data-name="<?phpecho $forum->name?>" data-posttext="<?phpecho $forum->posttext?>" data-listorder="<?phpecho $forum->listorder?>"></span>
 <div id="forum_main_div" class="panel panel-default">
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-addon">Name</span>
-            <input type="text" class="form-control" id="forum_name_in" value="<?echo $forum->name?>">
+            <input type="text" class="form-control" id="forum_name_in" value="<?phpecho $forum->name?>">
         </div>
         <div class="input-group">
             <span class="input-group-addon">Description</span>
-            <input type="text" class="form-control" id="forum_posttext_in" value="<?echo $forum->posttext?>">
+            <input type="text" class="form-control" id="forum_posttext_in" value="<?phpecho $forum->posttext?>">
         </div>
         <div class="input-group">
             <span class="input-group-addon">The list order</span>
-            <input type="number" class="form-control" id="forum_listorder_in" value="<?echo $forum->listorder?>">
+            <input type="number" class="form-control" id="forum_listorder_in" value="<?phpecho $forum->listorder?>">
         </div><br>
 
         <center>
@@ -63,7 +63,7 @@
             <button class="toggle_btn" id="permissions_non-registered" data-name="non-registered" data-state="false">Non-registered</button>
             <button class="toggle_btn" id="permissions_staff" data-name="staff" data-state="false">Staff</button>
             <br><br>Usertags:<br>
-            <?
+            <?php
                 foreach(get_all_usertags() as $value){
                     if($value){
                         echo "<button class='toggle_btn' id='permissions_tag_$value->id' data-name='$value->id' data-state='false'>$value->name</button>";
@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "forumspnl_create_forum")){
         removeHTMLElement("#delete_forum");
     }

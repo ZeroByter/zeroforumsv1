@@ -5,7 +5,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/editthread.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
@@ -24,8 +24,8 @@
 	$parent = get_forum_by_id($reply->parent);
 ?>
 
-<span id="getid" data-id="<?echo $_GET["id"];?>" data-parentid="<?echo $parent->id;?>"></span>
-<span id="getbody" style="display:none;"><?echo $reply->posttext;?></span>
+<span id="getid" data-id="<?phpecho $_GET["id"];?>" data-parentid="<?phpecho $parent->id;?>"></span>
+<span id="getbody" style="display:none;"><?phpecho $reply->posttext;?></span>
 <div id="main_body">
 	<span id="fillin_navbar"></span>
 	<table id="main_body_table">
@@ -38,7 +38,7 @@
 						</div>
 						<center>
 							<button type="button" class="btn btn-success" id="edit_reply_btn">Edit reply</button>
-							<a href="/thread?id=<?echo $parent->id;?>"><button type="button" class="btn btn-default" id="cancel_btn">Cancel</button></a>
+							<a href="/thread?id=<?phpecho $parent->id;?>"><button type="button" class="btn btn-default" id="cancel_btn">Cancel</button></a>
 						</center>
 					</div>
 				</div>
@@ -47,7 +47,7 @@
 	</table>
 </div>
 
-<?
+<?php
 	if($reply->poster != get_current_account()->id){
 		if(!tag_has_permission(get_current_usertag(), "forums_editothers")){
 			redirectWindow("/forums");

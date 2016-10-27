@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -30,7 +30,7 @@
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-addon">Navigation bar title</span>
-            <input type="text" class="form-control" id="navbar_title_in" value="<?echo get_navbar_title()->text;?>">
+            <input type="text" class="form-control" id="navbar_title_in" value="<?phpecho get_navbar_title()->text;?>">
         </div>
         <button type="button" class="btn btn-success" style="width:100%;" id="edit_title">Edit title</button>
     </div>

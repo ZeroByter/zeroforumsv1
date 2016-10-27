@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -33,8 +33,8 @@
 </style>
 
 <div id="view_log_main">
-    <h3>Viewing log: <?echo $_GET["date"]?></h3><br>
-    <?
+    <h3>Viewing log: <?phpecho $_GET["date"]?></h3><br>
+    <?php
         foreach(get_logs_by_date($_GET["date"]) as $value){
             if($value){
                 echo "<div><span class='label label-primary log_time'>$value->time:</span><span class='label label-default log_text'>".filterXSS($value->text)."</span></div>";

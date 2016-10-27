@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -14,25 +14,25 @@
     }
 </style>
 
-<span id="getid"><?echo $rule->id?></span>
-<span id="gettext"><?echo $rule->text?></span>
-<span id="getlistorder"><?echo $rule->listorder?></span>
+<span id="getid"><?phpecho $rule->id?></span>
+<span id="gettext"><?phpecho $rule->text?></span>
+<span id="getlistorder"><?phpecho $rule->listorder?></span>
 <div id="rules_main_panel_div" class="panel panel-default">
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-addon">Text</span>
-            <input type="text" class="form-control" id="rule_text_in" value="<?echo $rule->text?>">
+            <input type="text" class="form-control" id="rule_text_in" value="<?phpecho $rule->text?>">
         </div>
         <div class="input-group">
             <span class="input-group-addon">List order</span>
-            <input type="number" class="form-control" id="rule_listorder_in" value="<?echo $rule->listorder?>">
+            <input type="number" class="form-control" id="rule_listorder_in" value="<?phpecho $rule->listorder?>">
         </div>
 
         <button type="button" class="btn btn-danger" style="width:100%;" id="delete_rule">Delete</button>
     </div>
 </div>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "rulespnl_create_rule")){
         removeHTMLElement("#delete_rule");
     }

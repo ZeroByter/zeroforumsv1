@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -20,10 +20,10 @@
     }
 </style>
 
-<span id="parent" data-id="<?echo $parent->id;?>"></span>
+<span id="parent" data-id="<?phpecho $parent->id;?>"></span>
 <div id="forum_main_div" class="panel panel-default">
     <div class="panel-body">
-        <center><h5>Creating a sub-forum for forum '<?echo $parent->name;?>'</h5></center>
+        <center><h5>Creating a sub-forum for forum '<?phpecho $parent->name;?>'</h5></center>
         <div class="input-group">
             <span class="input-group-addon">Name</span>
             <input type="text" class="form-control" id="forum_name_in" value="">

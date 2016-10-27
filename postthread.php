@@ -4,7 +4,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/subforums.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
@@ -22,7 +22,7 @@
 	$parent = get_forum_by_id($_GET["parent"]);
 ?>
 
-<span id="get_parent_id" data-id="<?echo $parent->id;?>"></span>
+<span id="get_parent_id" data-id="<?phpecho $parent->id;?>"></span>
 <div id="main_body">
 	<span id="fillin_navbar"></span>
 	<table id="main_body_table">
@@ -34,8 +34,8 @@
 				<ol class="breadcrumb">
 					<li><a href="/forums">Forums</a></li>
 
-					<?echo ($parent->parent != 0) ? "<li><a href='/viewforum?id=$parent->parent'>" . get_forum_by_id($parent->parent)->name . "</a></li>" : "";?>
-					<li><a href="/subforum?id=<?echo $parent->id;?>"><?echo $parent->name;?></a></li>
+					<?phpecho ($parent->parent != 0) ? "<li><a href='/viewforum?id=$parent->parent'>" . get_forum_by_id($parent->parent)->name . "</a></li>" : "";?>
+					<li><a href="/subforum?id=<?phpecho $parent->id;?>"><?phpecho $parent->name;?></a></li>
 				</ol>
 				<div class="well">
 					<h4>New thread:</h4>
@@ -59,7 +59,7 @@
 	</table>
 </div>
 
-<?
+<?php
 	if(!tag_has_permission(get_current_account()->tag, "forums_createthread")){
 		redirectWindow("/forums");
 	}

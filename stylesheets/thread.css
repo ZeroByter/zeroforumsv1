@@ -29,3 +29,18 @@ ol, ul{
     font-size: 12px;
     color: grey;
 }
+
+.reply2reply_main_div{
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 0px;
+    margin-top: -14px;
+    margin-bottom: 10px;
+}
+.reply2reply_title_div{
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+.reply2repy_body_div{
+    padding: 10px;
+}

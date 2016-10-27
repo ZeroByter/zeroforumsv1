@@ -1,4 +1,4 @@
-<?
+<?php
     include("../getsql.php");
     include("../accounts.php");
     include("../logs.php");

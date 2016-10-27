@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/essentials.php");
     include("../../phpscripts/accounts.php");

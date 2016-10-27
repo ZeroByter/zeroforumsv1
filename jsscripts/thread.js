@@ -42,6 +42,11 @@ $("#pin_thread_btn, #unpin_thread_btn").click(function(){
         location.reload()
     })
 })
+$("#hide_thread_btn, #unhide_thread_btn").click(function(){
+    $.post("/admin/requests/thread_toggle_hidden", {id: $("#getid").data("id")}, function(html){
+        location.reload()
+    })
+})
 
 $("#delete_thread_btn").click(function(){
     $.post("/admin/requests/thread_delete", {id: $("#getid").data("id")}, function(html){

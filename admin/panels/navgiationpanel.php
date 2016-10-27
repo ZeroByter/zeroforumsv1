@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -70,7 +70,7 @@
     <span id="fillin_navigatebar"></span>
 </div>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "navigatepnl_change_website_title")){
         removeHTMLElement("#edit_navbar_title");
     }

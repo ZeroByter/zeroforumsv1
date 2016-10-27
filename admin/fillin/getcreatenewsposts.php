@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -41,7 +41,7 @@
                 <button type="button" class="toggle_btn" id="canview_registered" data-name="registered" data-state="false">Registered</button>
                 <button type="button" class="toggle_btn" id="canview_staff" data-name="staff" data-state="false">Staff</button>
                 <br><br>Usertags:<br>
-                <?
+                <?php
                     foreach(get_all_usertags() as $value){
                         if($value){
                             echo "<button type='button' class='toggle_btn' id='canview_tag_$value->id' data-name='$value->id' data-state='false'>$value->name</button>";

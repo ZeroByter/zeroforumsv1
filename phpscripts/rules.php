@@ -1,4 +1,4 @@
-<?
+<?php
     function rules_create_db(){
         $conn = sql_connect();
 		mysqli_query($conn, "CREATE TABLE IF NOT EXISTS rules(
@@ -48,7 +48,7 @@
     function create_new_rules_category($name, $listorder){
         $conn = sql_connect();
 
-		$name = mysqli_real_escape_string($conn, htmlspecialchars($name));
+		$name = mysqli_real_escape_string($conn, $name);
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 
         $time = time();
@@ -61,7 +61,7 @@
         $conn = sql_connect();
 
 		$parent = mysqli_real_escape_string($conn, $parent);
-		$text = mysqli_real_escape_string($conn, htmlspecialchars($text));
+		$text = mysqli_real_escape_string($conn, $text);
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 
         $time = time();
@@ -73,7 +73,7 @@
     function edit_rule($id, $text, $listorder){
         $conn = sql_connect();
 		$id = mysqli_real_escape_string($conn, $id);
-		$text = mysqli_real_escape_string($conn, htmlspecialchars($text));
+		$text = mysqli_real_escape_string($conn, $text);
 		$listorder = mysqli_real_escape_string($conn, $listorder);
 		$result = mysqli_query($conn, "UPDATE rules SET text='$text',listorder='$listorder' WHERE id='$id'");
 		mysqli_close($conn);

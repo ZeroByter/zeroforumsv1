@@ -3,7 +3,7 @@
 <link href="/stylesheets/bootstrap.css" rel="stylesheet">
 <link href="/stylesheets/font-awesome.css" rel="stylesheet">
 
-<?
+<?php
     include("../phpscripts/getsql.php");
     include("../phpscripts/accounts.php");
     include("../phpscripts/usertags.php");
@@ -30,7 +30,7 @@
     <li role="presentation" id="logs_tab" class="navbar_link"><a href="javascript:void(0)" data-url="panels/logspanel">Logs</a></li>
 </ul>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "adminpnl_newsposts_tab")){
         echo "<script>$('#news_tab').remove()</script>";
     }

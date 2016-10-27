@@ -2,7 +2,7 @@
 <script src="/jsscripts/bootstrap.js"></script>
 <link href="/stylesheets/bootstrap.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/essentials.php");
 	include("phpscripts/accounts.php");
@@ -24,7 +24,7 @@
 	}
 </style>
 
-<?
+<?php
 	if(count(get_all_rule_categories()) - 1 === 0){
 		echo "<center><span class='label label-danger'>There are no rules!</span></center>";
 	}

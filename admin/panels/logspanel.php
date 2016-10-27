@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -23,7 +23,7 @@
     <center>Click on a date to view or download the entire log file <span data-toggle="tooltip" data-placement="bottom" title="If you want to watch a log file over a time, view it. If you want to download a log as a copy or evidence, download it.">[?]</span></center>
 
     <div id="logs_list_div">
-        <?
+        <?php
             function endsWith($haystack, $needle) {
                 return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
             }

@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -62,7 +62,7 @@
 <div id="permissions_usertags_list_div">
     <center><br><span class="glyphicon glyphicon-tags"></span> User tags</center>
     <br>
-    <?
+    <?php
         foreach(get_all_usertags_limited() as $value){
             if($value){
                 echo "
@@ -78,7 +78,7 @@
     <center>
         <button id="select_all" data-state="true">Select all</button>
         <button id="select_none" data-state="false">Select none</button><br><br>
-        <?
+        <?php
             echo "<span id='all_permissions' data-permissions='" . implode(";", $permissions) . "'></span>";
 
             function echoPermissions($beginsWith){
@@ -96,15 +96,15 @@
             }
         ?>
 
-        <h4>Admin panel:</h4> <?echoPermissions("adminpnl");?>
-        <h4>Forums:</h4> <?echoPermissions("forums_");?>
-        <h4>News panel:</h4> <?echoPermissions("newspnl_");?>
-        <h4>Forums panel:</h4> <?echoPermissions("forumspnl");?>
-        <h4>Rules panel:</h4> <?echoPermissions("rulespnl");?>
-        <h4>Logs panel:</h4> <?echoPermissions("logs");?>
-        <h4>Navigate bar:</h4> <?echoPermissions("navigatepnl");?>
-        <h4>Usertags:</h4> <?echoPermissions("usertagpnl");?>
-        <h4>Users:</h4> <?echoPermissions("userspnl");?>
+        <h4>Admin panel:</h4> <?phpechoPermissions("adminpnl");?>
+        <h4>Forums:</h4> <?phpechoPermissions("forums_");?>
+        <h4>News panel:</h4> <?phpechoPermissions("newspnl_");?>
+        <h4>Forums panel:</h4> <?phpechoPermissions("forumspnl");?>
+        <h4>Rules panel:</h4> <?phpechoPermissions("rulespnl");?>
+        <h4>Logs panel:</h4> <?phpechoPermissions("logs");?>
+        <h4>Navigate bar:</h4> <?phpechoPermissions("navigatepnl");?>
+        <h4>Usertags:</h4> <?phpechoPermissions("usertagpnl");?>
+        <h4>Users:</h4> <?phpechoPermissions("userspnl");?>
     </center>
 </div>
 

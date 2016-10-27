@@ -1,4 +1,4 @@
-<?
+<?php
     include("../../phpscripts/getsql.php");
     include("../../phpscripts/accounts.php");
     include("../../phpscripts/usertags.php");
@@ -20,10 +20,10 @@
     }
 </style>
 
-<span style="display:none;" id="getparent"><?echo $_GET["parent"]?></span>
+<span style="display:none;" id="getparent"><?phpecho $_GET["parent"]?></span>
 <div id="create_rule_main_div" class="panel panel-default">
     <div class="panel-body">
-        <center><h5>Creating a rule for category '<?echo $parent->text;?>'</h5></center>
+        <center><h5>Creating a rule for category '<?phpecho $parent->text;?>'</h5></center>
         <form id="create_rule">
             <div class="input-group">
                 <span class="input-group-addon">Rule text</span>

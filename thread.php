@@ -6,7 +6,7 @@
 <link href="/stylesheets/base.css" rel="stylesheet">
 <link href="/stylesheets/thread.css" rel="stylesheet">
 
-<?
+<?php
 	include("phpscripts/getsql.php");
 	include("phpscripts/accounts.php");
 	include("phpscripts/forums.php");
@@ -28,7 +28,7 @@
 	}
 ?>
 
-<span id="getid" data-id="<?echo $_GET["id"];?>"></span>
+<span id="getid" data-id="<?phpecho $_GET["id"];?>"></span>
 <div id="main_body">
 	<span id="fillin_navbar"></span>
 	<table id="main_body_table">
@@ -36,14 +36,14 @@
 			<td id="body_center_space">
 				<ol class="breadcrumb">
 					<li><a href="/forums">Forums</a></li>
-					<?echo ($parent->parent != 0) ? "<li><a href='/viewforum?id=$parent->parent'>" . get_forum_by_id($parent->parent)->name . "</a></li>" : "";?>
+					<?phpecho ($parent->parent != 0) ? "<li><a href='/viewforum?id=$parent->parent'>" . get_forum_by_id($parent->parent)->name . "</a></li>" : "";?>
 
-					<li><a href="/subforum?id=<?echo $parent->id;?>"><?echo $parent->name;?></a></li>
+					<li><a href="/subforum?id=<?phpecho $parent->id;?>"><?phpecho $parent->name;?></a></li>
 
-					<li class="active"><?echo filterXSS($thread->name);?></li>
+					<li class="active"><?phpecho filterXSS($thread->name);?></li>
 				</ol>
                 <div id="thread_actions">
-					<?
+					<?php
 						if($thread->locked && tag_has_permission(get_current_usertag(), "forums_replyonlocked")){
 							echo "<span class='label label-info'>This thread is locked, but you possess the 'replyonlocked' permission!</span><br><br>";
 						}elseif($thread->locked && !tag_has_permission(get_current_usertag(), "forums_replyonlocked")){
@@ -67,8 +67,10 @@
                     <button type="button" class="btn btn-primary" id="unlock_thread_btn">Unlock thread</button>
                     <button type="button" class="btn btn-primary" id="pin_thread_btn">Pin thread</button>
                     <button type="button" class="btn btn-primary" id="unpin_thread_btn">Unpin thread</button>
+                    <button type="button" class="btn btn-primary" id="hide_thread_btn">Hide thread</button>
+                    <button type="button" class="btn btn-primary" id="unhide_thread_btn">Unhide thread</button>
                     <button type="button" class="btn btn-danger" id="delete_thread_btn">Delete thread</button>
-					<?
+					<?php
 						if(!tag_has_permission(get_current_usertag(), "forums_deletepost")){
 							removeHTMLElement("#delete_thread_btn");
 						}
@@ -77,20 +79,20 @@
 				<div class="panel panel-default" style="border-color:#c3c6ff;">
 					<div class="panel-heading" style="overflow:auto;background:#dbdcec;">
 						<div style="float:left;">
-							<?echo filterXSS($thread->name);?>
+							<?phpecho filterXSS($thread->name);?>
 						</div>
 						<div id="thread_replies" style="float:right;">
-							<?echo count(get_all_replies($thread->id)) - 1;?> replies
+							<?phpecho count(get_all_replies($thread->id)) - 1;?> replies
 						</div>
 					</div>
 					<div class="panel-body">
 						<div id="thread_poster_div">
-							<a href="profile?id=<?echo $thread->poster;?>"><?echo get_account_display_name($thread->poster);?></a><br>
-							<?echo get_account_by_id($thread->poster)->posts;?> posts<br>
+							<a href="profile?id=<?phpecho $thread->poster;?>"><?phpecho get_account_display_name($thread->poster);?></a><br>
+							<?phpecho get_account_by_id($thread->poster)->posts;?> posts<br>
 						</div>
 						<div id="thread_body_div" style="float:left;">
-							<?echo filterXSS($thread->posttext);?><br>
-							<span class='thread_posted_date'>Posted <?echo timestamp_to_date($thread->firstposted, true) . $lastedited_string?></span>
+							<?phpecho filterXSS($thread->posttext);?><br>
+							<span class='thread_posted_date'>Posted <?phpecho timestamp_to_date($thread->firstposted, true) . $lastedited_string?></span>
 						</div>
 					</div>
 				</div>
@@ -110,7 +112,7 @@
 	</table>
 </div>
 
-<?
+<?php
     if(!tag_has_permission(get_current_usertag(), "forums_createreply") || ($thread->locked && !tag_has_permission(get_current_usertag(), "replyonlocked"))){
 		removeHTMLElement("#thread_reply");
 		removeHTMLElement("#new_reply_btn");
@@ -133,6 +135,16 @@
 			hideHTMLElement("#pin_thread_btn");
 		}else{
 			hideHTMLElement("#unpin_thread_btn");
+		}
+	}
+	if(!tag_has_permission(get_current_usertag(), "forums_threadhideunhide")){
+		removeHTMLElement("#hide_thread_btn");
+		removeHTMLElement("#unhide_thread_btn");
+	}else{
+		if($thread->hidden){
+			hideHTMLElement("#hide_thread_btn");
+		}else{
+			hideHTMLElement("#unhide_thread_btn");
 		}
 	}
 	if($thread->poster != get_current_account()->id){

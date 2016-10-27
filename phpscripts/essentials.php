@@ -1,4 +1,4 @@
-<?
+<?php
     function get_human_time($time){
         $time = time() - $time;
         $time = ($time<1)? 1 : $time;
